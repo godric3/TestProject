@@ -1,12 +1,22 @@
 dist: trusty
 group: edge
-sudo: required
+sudo: true
 language: java
 install: true
 before_install:
   - echo $TRAVIS_JDK_VERSION
+  - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
+      chmod +x wildfly-install.sh;
+      sudo ./wildfly-install.sh;
+    fi
 script:
-  - mvn install
+  - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
+      mvn wildfly:deploy;
+      content=$(curl -L localhost:28080/TestProject);
+      echo $content;
+    else
+      mvn install;
+    fi
 jdk:
   - oraclejdk8
   - openjdk7
