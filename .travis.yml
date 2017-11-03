@@ -1,6 +1,29 @@
-sudo: false
+dist: trusty
+group: edge
+sudo: required
 language: java
+install: true
+before_install:
+  - echo $TRAVIS_JDK_VERSION
+script:
+  - mvn install
 jdk:
   - oraclejdk8
-  - oraclejdk9
   - openjdk7
+  - openjdk8
+matrix:
+  include:
+  - dist: precise
+    jdk: oraclejdk7
+  - jdk: oraclejdk9
+    addons:
+      apt:
+        packages:
+          - oracle-java9-installer
+
+cache:
+  apt: true
+  packages: true
+  directories:
+  - .autoconf
+  - $HOME/.m2
