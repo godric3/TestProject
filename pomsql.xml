@@ -12,7 +12,7 @@
 		<version.jboss.bom>10.0.0.Final</version.jboss.bom>
 		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-		<mysql.driver.version>5.1.29</mysql.driver.version>
+		<mysql.driver.version>5.1.30</mysql.driver.version>
 	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -22,8 +22,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<compilerArgument>-Xlint:all</compilerArgument>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
@@ -48,53 +48,54 @@
 			<plugin>
 				<groupId>org.wildfly.plugins</groupId>
 				<artifactId>wildfly-maven-plugin</artifactId>
-				<version>1.1.0.Alpha5</version>
+				<version>1.2.1.Final</version>
 				<configuration>
 					<name>TestProject.war</name>
 					<username>admin</username>
 					<password>admin</password>
-					<executions>
-						<!-- deploy the mysql connectorj -->
-						<execution>
-							<id>deploy-mysql-driver</id>
-							<phase>install</phase>
-							<goals>
-								<goal>deploy-artifact</goal>
-							</goals>
-							<configuration>
-								<groupId>mysql</groupId>
-								<artifactId>mysql-connector-java</artifactId>
-								<name>mysql-connector-java-${mysql.driver.version}.jar</name>
-							</configuration>
-						</execution>
-						<!-- add mysql datasource -->
-						<execution>
-							<id>add-datasource</id>
-							<phase>install</phase>
-							<configuration>
-								<address>subsystem=datasources,data-source=myDatasource</address>
-								<resource>
-									<enableResource>true</enableResource>
-									<properties>
-										<connection-url>jdbc:mysql://localhost:3306/projetAbsenceTest</connection-url>
-										<jndi-name>java:/MySqlDS2</jndi-name>
-										<enabled>true</enabled>
-										<enable>true</enable>
-										<pool-name>MySqlDS_Pool2</pool-name>
-										<user-name>root</user-name>
-										<driver-name>mysql-connector-java-${mysql.driver.version}.jar</driver-name>
-										<use-ccm>false</use-ccm>
-									</properties>
-								</resource>
-							</configuration>
-							<goals>
-								<goal>add-resource</goal>
-							</goals>
-						</execution>
-					</executions>
-
-
 				</configuration>
+				<executions>
+					<!-- deploy the mysql connectorj -->
+					<execution>
+						<id>deploy-mysql-driver</id>
+						<phase>install</phase>
+						<goals>
+							<goal>deploy-artifact</goal>
+						</goals>
+						<configuration>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<name>mysql-connector-java-${mysql.driver.version}.jar</name>
+						</configuration>
+					</execution>
+					<!-- add mysql datasource -->
+					<execution>
+						<id>add-datasource</id>
+						<phase>install</phase>
+						<configuration>
+						 	<address>subsystem=datasources,data-source=IUIDS</address>
+						 	<resources>
+							<resource>
+								<properties>
+									<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+									<connection-url>jdbc:mysql://localhost:3306/iui</connection-url>
+									<jndi-name>java:/IUIDS</jndi-name>
+									<enabled>true</enabled>
+									<enable>true</enable>
+									<pool-name>IUIDS_Pool2</pool-name>
+									<user-name>root</user-name>
+									<driver-class>com.mysql.jdbc.Driver</driver-class>
+									<driver-name>mysql-connector-java-${mysql.driver.version}.jar_com.mysql.jdbc.Driver_5_1</driver-name>
+									<use-ccm>false</use-ccm>
+								</properties>
+							</resource>
+							</resources>
+						</configuration>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 		</plugins>
@@ -148,10 +149,10 @@
 			<version>3.0.18.Final</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
+			<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.8-dmr</version>
+			<version>${mysql.driver.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -167,6 +168,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-
 </project>

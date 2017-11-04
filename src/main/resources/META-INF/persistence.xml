@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="TestProject">
+	<jta-data-source>java:/IUIDS</jta-data-source>
+	<properties>
+			<property name="hibernate.enable_lazy_load_no_trans" value="true" />
+
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+
+			<property name="hibernate.archive.autodetection" value="class" />
+
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+
+			<property name="hibernate.show_sql" value="true" />
+
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding" value="UTF-8" />
+		<!-- create-or-extend-tables -->
+		<!-- drop-and-create-tables  -->
+       	 	<property name="eclipseLink.ddl-generation" value="drop-and-create-table"/>
+       		<property name="eclipseLink.ddl-generation.output-mode" value="database"/>
+    	</properties>
+	</persistence-unit>
+</persistence>

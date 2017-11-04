@@ -3,6 +3,8 @@ group: edge
 sudo: true
 language: java
 install: true
+services:
+  - mysql
 before_install:
   - echo $TRAVIS_JDK_VERSION
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
@@ -10,13 +12,22 @@ before_install:
       sudo ./wildfly-install.sh;
     fi
 script:
+  - set -e;
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
-      mvn wildfly:deploy;
-      content=$(curl -L localhost:28080/TestProject);
+      mysqladmin -u root create iui;
+      mysqlshow --user=root iui;
+      mvn -f pomsql.xml install;
+      mvn -f pomsql.xml wildfly:deploy;
+      content=$(curl -L localhost:8080/TestProject);
+      echo $content;
+      content=$(curl -L localhost:8080/TestProject/create);
+      echo $content;
+      content=$(curl -L localhost:8080/TestProject/show/1);
       echo $content;
     else
-      mvn install;
+      mvn -f pom.xml install;
     fi
+  - set +e;
 jdk:
   - oraclejdk8
   - openjdk7
