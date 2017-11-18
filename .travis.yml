@@ -7,6 +7,10 @@ services:
   - mysql
 before_install:
   - echo $TRAVIS_JDK_VERSION
+  - sudo apt-get update
+  - sudo apt-get install nodejs
+  - sudo apt-get install npm
+  - npm install -g @angular/cli
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
       chmod +x wildfly-install.sh;
       sudo ./wildfly-install.sh;
@@ -16,13 +20,16 @@ script:
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
       mysqladmin -u root create iui;
       mysqlshow --user=root iui;
-      mvn -f pomsql.xml install;
-      mvn -f pomsql.xml wildfly:deploy;
-      content=$(curl -L localhost:8080/TestProject);
+      mvn -f pomsql.xml wildfly:deploy-artifact@deploy-mysql-driver;
+      mvn -f pomsql.xml wildfly:add-resource@add-datasource;
+      mvn -f pomtravis.xml wildfly:deploy;
+      content=$(curl  -L localhost:8080/TestProject/api);
       echo $content;
-      content=$(curl -L localhost:8080/TestProject/create);
+      content=$(curl  -L localhost:8080/TestProject/api/create);
       echo $content;
-      content=$(curl -L localhost:8080/TestProject/show/1);
+      content=$(curl  -L localhost:8080/TestProject/api/show/1);
+      echo $content;
+      content=$(curl  -L localhost:8080/TestProject/ng/);
       echo $content;
     else
       mvn -f pom.xml install;
