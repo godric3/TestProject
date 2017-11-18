@@ -16,7 +16,8 @@ script:
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
       mysqladmin -u root create iui;
       mysqlshow --user=root iui;
-      mvn -f pomsql.xml install;
+      mvn -f pomsql.xml wildfly:deploy-artifact@deploy-mysql-driver;
+      mvn -f pomsql.xml wildfly:add-resource@add-datasource;
       mvn -f pomsql.xml wildfly:deploy;
       content=$(curl -L localhost:8080/TestProject);
       echo $content;
