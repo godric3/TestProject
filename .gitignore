@@ -5,6 +5,7 @@ target/
 libs/
 tmp/
 node_modules/
+WebContent/ng/
 jaxws/jaxws-client/src/main/
  
 # OS Files #

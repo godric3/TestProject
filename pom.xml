@@ -29,6 +29,7 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
+			<!-- creating war -->
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
@@ -37,6 +38,31 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+			<!-- angular start -->
+			 <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.5.0</version>
+        <executions>
+            <execution>
+                <id>exec-npm-ng-build</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                    <workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
+                    <executable>ng.cmd</executable>
+                    <arguments>
+                        <argument>build</argument>
+                        <argument>--base-href=/TestProject/ng/</argument>
+                    </arguments>
+                </configuration>
+                <goals>
+                    <goal>exec</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+			<!-- angular stop -->
+			
 			<!-- need for creating datasource -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

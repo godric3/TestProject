@@ -33,7 +33,7 @@ public class HelloWorldTest {
 
 	@Test
 	public void testHelloWorld() {
-		Response helloResponse = testedEntity.helloWorld();
+		Response helloResponse = testedEntity.helloWorldResponse();
 		assertEquals(Response.Status.OK.getStatusCode(), helloResponse.getStatus());
 		assertEquals("Hello World!", helloResponse.getEntity());
 	}

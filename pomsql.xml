@@ -37,6 +37,31 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
+
+			<!-- angular start -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<executions>
+					<execution>
+						<id>exec-npm-install</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
+							<executable>npm.cmd</executable>
+							<arguments>
+								<argument>install</argument>
+							</arguments>
+						</configuration>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- angular stop -->
+
 			<!-- need for creating datasource -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -73,22 +98,22 @@
 						<id>add-datasource</id>
 						<phase>install</phase>
 						<configuration>
-						 	<address>subsystem=datasources,data-source=IUIDS</address>
-						 	<resources>
-							<resource>
-								<properties>
-									<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
-									<connection-url>jdbc:mysql://localhost:3306/iui</connection-url>
-									<jndi-name>java:/IUIDS</jndi-name>
-									<enabled>true</enabled>
-									<enable>true</enable>
-									<pool-name>IUIDS_Pool2</pool-name>
-									<user-name>root</user-name>
-									<driver-class>com.mysql.jdbc.Driver</driver-class>
-									<driver-name>mysql-connector-java-${mysql.driver.version}.jar_com.mysql.jdbc.Driver_5_1</driver-name>
-									<use-ccm>false</use-ccm>
-								</properties>
-							</resource>
+							<address>subsystem=datasources,data-source=IUIDS</address>
+							<resources>
+								<resource>
+									<properties>
+										<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
+										<connection-url>jdbc:mysql://localhost:3306/iui</connection-url>
+										<jndi-name>java:/IUIDS</jndi-name>
+										<enabled>true</enabled>
+										<enable>true</enable>
+										<pool-name>IUIDS_Pool2</pool-name>
+										<user-name>root</user-name>
+										<driver-class>com.mysql.jdbc.Driver</driver-class>
+										<driver-name>mysql-connector-java-${mysql.driver.version}.jar_com.mysql.jdbc.Driver_5_1</driver-name>
+										<use-ccm>false</use-ccm>
+									</properties>
+								</resource>
 							</resources>
 						</configuration>
 						<goals>
@@ -149,7 +174,7 @@
 			<version>3.0.18.Final</version>
 			<scope>provided</scope>
 		</dependency>
-			<dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.driver.version}</version>
