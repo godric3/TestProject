@@ -1,3 +1,5 @@
+package tu.kielce.pl;
+
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

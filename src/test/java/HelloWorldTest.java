@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import tu.kielce.pl.HelloWorld;
+
 public class HelloWorldTest {
 
 	private HelloWorld testedEntity;
