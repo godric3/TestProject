@@ -12,118 +12,94 @@
 		<version.jboss.bom>10.0.0.Final</version.jboss.bom>
 		<maven.build.timestamp.format>yyyyMMdd'T'HHmmss</maven.build.timestamp.format>
 		<version.wildfly.maven.plugin>1.0.2.Final</version.wildfly.maven.plugin>
-		<mysql.driver.version>5.1.29</mysql.driver.version>
+		<mysql.driver.version>5.1.30</mysql.driver.version>
 	</properties>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<testSourceDirectory>src/test/java</testSourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-					<compilerArgument>-Xlint:all</compilerArgument>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-				</configuration>
-			</plugin>
-			<!-- creating war -->
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.6</version>
-				<configuration>
-					<warSourceDirectory>WebContent</warSourceDirectory>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-			<!-- angular start -->
-			 <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.5.0</version>
-        <executions>
-            <execution>
-                <id>exec-npm-ng-build</id>
-                <phase>generate-sources</phase>
-                <configuration>
-                    <workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
-                    <executable>ng.cmd</executable>
-                    <arguments>
-                        <argument>build</argument>
-                        <argument>--base-href=/TestProject/ng/</argument>
-                    </arguments>
-                </configuration>
-                <goals>
-                    <goal>exec</goal>
-                </goals>
-            </execution>
-        </executions>
-    </plugin>
-			<!-- angular stop -->
-			
-			<!-- need for creating datasource -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
-			</plugin>
-
-			<!-- for deploying to wildfly -->
-			<plugin>
-				<groupId>org.wildfly.plugins</groupId>
-				<artifactId>wildfly-maven-plugin</artifactId>
-				<version>1.1.0.Alpha5</version>
-				<configuration>
-					<name>TestProject.war</name>
-					<username>admin</username>
-					<password>admin</password>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.7.0</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+						<compilerArgument>-Xlint:all</compilerArgument>
+						<showWarnings>true</showWarnings>
+						<showDeprecation>true</showDeprecation>
+					</configuration>
+				</plugin>
+				<!-- creating war -->
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<warSourceDirectory>WebContent</warSourceDirectory>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+					</configuration>
+				</plugin>
+				<!-- Read properties -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>properties-maven-plugin</artifactId>
+					<version>1.0.0</version>
 					<executions>
-						<!-- deploy the mysql connectorj -->
 						<execution>
-							<id>deploy-mysql-driver</id>
-							<phase>install</phase>
+							<phase>initialize</phase>
 							<goals>
-								<goal>deploy-artifact</goal>
+								<goal>read-project-properties</goal>
 							</goals>
 							<configuration>
-								<groupId>mysql</groupId>
-								<artifactId>mysql-connector-java</artifactId>
-								<name>mysql-connector-java-${mysql.driver.version}.jar</name>
+								<files>
+									<file>${project.basedir}/buildScripts/configuration.properties</file>
+								</files>
 							</configuration>
 						</execution>
-						<!-- add mysql datasource -->
+					</executions>
+				</plugin>
+				<!-- angular -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>1.5.0</version>
+					<executions>
 						<execution>
-							<id>add-datasource</id>
-							<phase>install</phase>
+							<id>exec-npm-ng-build</id>
+							<phase>generate-sources</phase>
 							<configuration>
-								<address>subsystem=datasources,data-source=myDatasource</address>
-								<resource>
-									<enableResource>true</enableResource>
-									<properties>
-										<connection-url>jdbc:mysql://localhost:3306/projetAbsenceTest</connection-url>
-										<jndi-name>java:/MySqlDS2</jndi-name>
-										<enabled>true</enabled>
-										<enable>true</enable>
-										<pool-name>MySqlDS_Pool2</pool-name>
-										<user-name>root</user-name>
-										<driver-name>mysql-connector-java-${mysql.driver.version}.jar</driver-name>
-										<use-ccm>false</use-ccm>
-									</properties>
-								</resource>
+								<workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
+								<executable>ng.cmd</executable>
+								<arguments>
+									<argument>build</argument>
+									<argument>--base-href=/TestProject/ng/</argument>
+								</arguments>
 							</configuration>
 							<goals>
-								<goal>add-resource</goal>
+								<goal>exec</goal>
 							</goals>
 						</execution>
 					</executions>
-
-
-				</configuration>
-			</plugin>
-
-		</plugins>
+				</plugin>
+				<!-- need for creating datasource -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<!-- for deploying to wildfly -->
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>1.1.0.Alpha5</version>
+					<configuration>
+						<name>TestProject.war</name>
+						<username>${wildfly.user}</username>
+						<password>${wildfly.pass}</password>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<dependencyManagement>

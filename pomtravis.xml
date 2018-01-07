@@ -37,7 +37,6 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-
 			<!-- angular start -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -58,21 +57,21 @@
 							<goal>exec</goal>
 						</goals>
 					</execution>
-					 <execution>
-                <id>exec-npm-ng-build</id>
-                <phase>generate-sources</phase>
-                <configuration>
-                    <workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
-                    <executable>ng</executable>
-                    <arguments>
-                        <argument>build</argument>
-                        <argument>--base-href=/TestProject/ng/</argument>
-                    </arguments>
-                </configuration>
-                <goals>
-                    <goal>exec</goal>
-                </goals>
-            </execution>
+					<execution>
+						<id>exec-npm-ng-build</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<workingDirectory>${project.basedir}/src/main/angular</workingDirectory>
+							<executable>ng</executable>
+							<arguments>
+								<argument>build</argument>
+								<argument>--base-href=/TestProject/ng/</argument>
+							</arguments>
+						</configuration>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
 				</executions>
 			</plugin>
 			<!-- angular stop -->

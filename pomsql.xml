@@ -37,7 +37,25 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>
-
+<!-- Read properties -->
+			<plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+            <configuration>
+              <files>
+                <file>buildScripts/configuration.properties</file>
+              </files>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
 			<!-- angular start -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -76,8 +94,8 @@
 				<version>1.2.1.Final</version>
 				<configuration>
 					<name>TestProject.war</name>
-					<username>admin</username>
-					<password>admin</password>
+					<username>${wildfly.user}</username>
+					<password>${wildfly.pass}</password>
 				</configuration>
 				<executions>
 					<!-- deploy the mysql connectorj -->
@@ -103,12 +121,13 @@
 								<resource>
 									<properties>
 										<xa-datasource-class>com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</xa-datasource-class>
-										<connection-url>jdbc:mysql://localhost:3306/iui</connection-url>
+										<connection-url>${database.connectionURL}</connection-url>
 										<jndi-name>java:/IUIDS</jndi-name>
 										<enabled>true</enabled>
 										<enable>true</enable>
 										<pool-name>IUIDS_Pool2</pool-name>
-										<user-name>root</user-name>
+										<user-name>${database.username}</user-name>
+										<password>${database.password}</password>
 										<driver-class>com.mysql.jdbc.Driver</driver-class>
 										<driver-name>mysql-connector-java-${mysql.driver.version}.jar_com.mysql.jdbc.Driver_5_1</driver-name>
 										<use-ccm>false</use-ccm>

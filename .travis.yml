@@ -20,8 +20,8 @@ script:
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
       mysqladmin -u root create iui;
       mysqlshow --user=root iui;
-      mvn -f pomsql.xml wildfly:deploy-artifact@deploy-mysql-driver;
-      mvn -f pomsql.xml wildfly:add-resource@add-datasource;
+      mvn -f pomtravis.xml wildfly:deploy-artifact@deploy-mysql-driver;
+      mvn -f pomtravis.xml wildfly:add-resource@add-datasource;
       mvn -f pomtravis.xml wildfly:deploy;
       content=$(curl  -L localhost:8080/TestProject/api);
       echo $content;
@@ -32,7 +32,7 @@ script:
       content=$(curl  -L localhost:8080/TestProject/ng/);
       echo $content;
     else
-      mvn -f pom.xml install;
+      mvn -f pomtravis.xml verify;
     fi
   - set +e;
 jdk:
