@@ -27,7 +27,7 @@ public class TestDAO extends GenericDAO<TestEntity> {
 	}
 
 	public TestEntity getTestEntityWithName(String name) throws NotFoundException{
-		Query q = entityManager.createNamedQuery("User.findByLogin", TestEntity.class);
+		Query q = entityManager.createNamedQuery("TestEntity.findByName", TestEntity.class);
 		q.setParameter("name", name);
 		// q.getSingleResult() ???
 		List<TestEntity> resultList = q.getResultList();
