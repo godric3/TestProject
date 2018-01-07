@@ -1,4 +1,4 @@
-package tu.kielce.pl;
+package tu.kielce.pl.photoGallery.rest;
 
 import javax.ejb.EJB;
 import javax.persistence.EntityManager;
@@ -10,6 +10,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import tu.kielce.pl.photoGallery.dao.TestEJB;
+import tu.kielce.pl.photoGallery.model.TestEntity;
 
 @Path("/")
 @Consumes({ "application/json" })

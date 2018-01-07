@@ -2,13 +2,9 @@ import static org.junit.Assert.*;
 
 import javax.ws.rs.core.Response;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
-import tu.kielce.pl.HelloWorld;
+import tu.kielce.pl.photoGallery.rest.HelloWorld;
 
 public class HelloWorldTest {
 

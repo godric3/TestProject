@@ -1,8 +1,10 @@
-package tu.kielce.pl;
+package tu.kielce.pl.photoGallery.dao;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import tu.kielce.pl.photoGallery.model.TestEntity;
 
 @Stateless
 public class TestEJB {

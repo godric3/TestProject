@@ -1,4 +1,4 @@
-package tu.kielce.pl;
+package tu.kielce.pl.photoGallery.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
