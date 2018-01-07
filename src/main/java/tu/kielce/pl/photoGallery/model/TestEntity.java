@@ -5,8 +5,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+
+/*
+ * Example entity stored in database.
+ * 
+ * Example for joining tables:
+ * 
+ 	class Checkpoint
+ 	@ManyToOne
+	@JoinColumn(name="tripID")
+	private Trip trip;
+	
+	class Trip
+	@OneToMany(mappedBy="trip")
+	private List<Checkpoint> checkpoints;
+ */
 @Entity
+@NamedQueries({
+	@NamedQuery(name="TestEntity.findAll", query="SELECT u FROM TestEntity u"),
+	@NamedQuery(name="TestEntity.findByName", query="SELECT u FROM TestEntity u WHERE u.name = :name")
+})
 public class TestEntity {
 
 	@Id
