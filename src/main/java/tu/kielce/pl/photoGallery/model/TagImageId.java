@@ -7,9 +7,9 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class TagImageId implements Serializable {
-	@Column(name = "imageId")
+	@Column(name = "tiImageId")
 	private long imageId;
-	@Column(name = "tagName")
+	@Column(name = "tiTagName")
 	private String tagName;
 
 	public long getImageId() {
