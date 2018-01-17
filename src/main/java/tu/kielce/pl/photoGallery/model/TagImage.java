@@ -1,14 +1,14 @@
 package tu.kielce.pl.photoGallery.model;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class TagImage {
-	@EmbeddedId
-	private TagImageId id;
+	@Id
+	private long id;
 
 	@ManyToOne
 	@JoinColumn(name = "imageId")
@@ -17,6 +17,14 @@ public class TagImage {
 	@ManyToOne
 	@JoinColumn(name = "tagName")
 	private Tag tag;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public Image getImage() {
 		return image;
