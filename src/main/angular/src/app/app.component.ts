@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   private resultsGet;
   private resultPost;
-  private getUrl = "http://localhost:8080/TestProject/api/";
+  private getUrl = "http://localhost:8080/TestProject/api/responseWithHeader";
   private postUrl = "https://jsonplaceholder.typicode.com/posts";
 
   constructor(private http: HttpClient) { }
