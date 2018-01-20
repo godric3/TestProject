@@ -9,9 +9,12 @@ before_install:
   - echo $TRAVIS_JDK_VERSION
   - sudo apt-get update
   - sudo apt-get install nodejs
-  - sudo apt-get install npm
-  - npm install -g @angular/cli
-  - npm install -g @angular-devkit/core
+<<<<<<< HEAD
+  - npm install --save-dev @angular/cli@latest
+=======
+  - sudo apt-get install npm@3.10.10
+  - npm install -g @angular/cli@1.6.4
+>>>>>>> add73c4a651694d62f627bfc0c25650cafc8b3b3
   - if [ $TRAVIS_JDK_VERSION = "oraclejdk8" ] || [ $TRAVIS_JDK_VERSION = "openjdk8" ]; then
       chmod +x wildfly-install.sh;
       sudo ./wildfly-install.sh;
