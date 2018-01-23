@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 
+import tu.kielce.pl.photoGallery.model.Category;
 import tu.kielce.pl.photoGallery.model.Image;
 import tu.kielce.pl.photoGallery.model.Tag;
 import tu.kielce.pl.photoGallery.model.User;
@@ -28,9 +29,10 @@ public class ImageDAO extends GenericDAO<Image> {
 			throw new NotFoundException();
 	}
 
-	public List<Image> getBySize(int size) {
+	public List<Image> getBySize(int minSize, int maxSize) {
 		Query q = entityManager.createNamedQuery("Image.findBySize", Image.class);
-		q.setParameter("size", size);
+		q.setParameter("minSize", minSize);
+		q.setParameter("maxSize", maxSize);
 		List<Image> images = q.getResultList();
 		return images;
 	}
@@ -52,6 +54,13 @@ public class ImageDAO extends GenericDAO<Image> {
 	public List<Image> getByUser(User user) throws NotFoundException {
 		Query q = entityManager.createNamedQuery("Image.findByUser", Image.class);
 		q.setParameter("user", user);
+		List<Image> images = q.getResultList();
+		return images;
+	}
+
+	public List<Image> getByCategory(Category category) throws NotFoundException {
+		Query q = entityManager.createNamedQuery("Image.findByCategory", Image.class);
+		q.setParameter("category", category);
 		List<Image> images = q.getResultList();
 		return images;
 	}
