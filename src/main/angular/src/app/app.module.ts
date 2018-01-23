@@ -14,6 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { JwtInterceptor } from './helpers/jwt-interceptor';
+import { DialogLoginComponent } from './dialog-login/dialog-login.component';
+import { DialogRegistrationComponent } from './dialog-registration/dialog-registration.component';
+import { HeaderComponent } from './header/header.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { UICarouselModule } from "ui-carousel";
+
+
 
 
 
@@ -24,7 +31,10 @@ import { JwtInterceptor } from './helpers/jwt-interceptor';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DialogLoginComponent,
+    DialogRegistrationComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +45,9 @@ import { JwtInterceptor } from './helpers/jwt-interceptor';
     MatFormFieldModule,
     MatCardModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDialogModule,
+    UICarouselModule
 
   ],
   providers: [
@@ -44,6 +56,10 @@ import { JwtInterceptor } from './helpers/jwt-interceptor';
       useClass: JwtInterceptor,
       multi: true
   },
+  ],
+  entryComponents:[
+    DialogLoginComponent,
+    DialogRegistrationComponent
   ],
   bootstrap: [AppComponent]
 })
