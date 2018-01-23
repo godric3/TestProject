@@ -21,7 +21,7 @@ public class UserManager {
 		User user=new User();
 		user.setUsername(login);
 		user.setPassword(password);
-		user.setToken(login+password);
+		user.setToken(login+"|"+password);
 		return user;
 	}
 
