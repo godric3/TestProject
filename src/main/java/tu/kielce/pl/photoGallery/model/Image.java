@@ -6,9 +6,17 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
+		@NamedQuery(name = "Image.findBySize", query = "SELECT i FROM Image i WHERE i.size >= :minSize AND i.size <= :maxSize"),
+		@NamedQuery(name = "Image.findByExtension", query = "SELECT i FROM Image i WHERE i.extension = :extension"),
+		@NamedQuery(name = "Image.findByTag", query = "SELECT i FROM Image i, TagImage ti WHERE ti.tag = :tag AND ti.image = i"),
+		@NamedQuery(name = "Image.findByUser", query = "SELECT i FROM Image i WHERE i.user = :user"),
+		@NamedQuery(name = "Image.findByCategory", query = "SELECT i FROM Image i WHERE i.category = :category") })
 public class Image {
 	@Id
 	private long id;

@@ -4,9 +4,13 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
+		@NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name") })
 public class Category {
 	@Id
 	private String name;
