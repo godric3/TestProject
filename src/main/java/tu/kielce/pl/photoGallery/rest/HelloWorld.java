@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import tu.kielce.pl.photoGallery.filter.Secured;
 import tu.kielce.pl.photoGallery.manager.TestManager;
 import tu.kielce.pl.photoGallery.model.TestEntity;
 
@@ -38,6 +39,13 @@ public class HelloWorld {
 		return Response.ok("Hello World!").build();
 	}
 	
+	@GET
+	@Path("/secured")
+	@Secured
+	public Response helloWorldResponseSecured() {
+		return Response.ok("Hello World!").build();
+	}
+
 	@GET
 	@Path("/responseWithHeader")
 	public Response helloWorldResponseWithHeader() {
