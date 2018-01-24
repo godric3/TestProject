@@ -12,7 +12,7 @@ export class WelcomePageComponent implements OnInit {
   private resultPost;
   private getUrl = "http://localhost:8080/TestProject/api/responseWithHeader";
   private postUrl = "https://jsonplaceholder.typicode.com/posts";
-  private fullImagePath = '/assets/images-hello-site.jpg'
+  private fullImagePath = '/TestProject/ng/assets/images-hello-site.jpg'
 
   constructor(private userService:UserService) { }
 
@@ -21,5 +21,9 @@ export class WelcomePageComponent implements OnInit {
 
   isLoggedIn(){
     return this.userService.isLoggedIn()
+  }
+
+  getUserName(){
+    return this.userService.getLoggedUserName()
   }
 }

@@ -8,9 +8,11 @@
       <button mat-raised-button color="warn" class="buttonInHeader" *ngIf=isLoggedIn() routerLink="/getPhoto"> Pokaż zdjęcia</button>
     </div>
     <span class="example-spacer"></span>
+    <div class="userName" *ngIf=isLoggedIn()>{{getUserName()}}</div>
     <div class="button-row">
       <button mat-raised-button color="primary" class="buttonInHeader" *ngIf=!isLoggedIn() routerLink="/register">Rejestracja</button>
       <button mat-raised-button color="primary" class="buttonInHeader" *ngIf=!isLoggedIn() routerLink="/login">Logowanie</button>
+      <!--<div *ngIf=isLoggedIn()>{{getUserName()}</div>-->
       <button mat-raised-button color="primary" class="buttonInHeader" *ngIf=isLoggedIn() (click)="logout()">Wyloguj się</button>
     </div>
   </mat-toolbar-row>

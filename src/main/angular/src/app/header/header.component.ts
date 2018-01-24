@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../services/user-service.service';
+import { Router } from '@angular/router/src/router';
 
 
 @Component({
@@ -11,17 +12,22 @@ import { UserService } from '../services/user-service.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private userService:UserService) { }
+  constructor(private userService: UserService,private router:Router) { }
 
   ngOnInit() {
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
     return this.userService.isLoggedIn()
   }
 
-  logout(){
-    this.userService.logout()
-    console.log("Wylogowano")
+  logout() {
+    this.userService.logoutUser()
+    this.router.navigate(['/home'])
+  }
+
+  getUserName() {
+    console.log('get')
+    return this.userService.getLoggedUserName()
   }
 }

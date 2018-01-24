@@ -11,7 +11,7 @@
               <mat-form-field>
                 <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'">
                 <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-              </mat-form-field>   <div *ngIf="valid">Login lub hasło powyżej 5 znaków!</div>
+              </mat-form-field>   <div *ngIf="validMessage">{{validMessage}}</div>
           </form>
           <button mat-raised-button color="primary" (click)="registerUser()">Zarejestruj się</button>
   </mat-card-content>

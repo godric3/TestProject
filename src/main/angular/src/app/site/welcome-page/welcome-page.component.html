@@ -3,7 +3,7 @@
     <div class="hello-message">
         <h1>Galeria zdjęć</h1>
         <h2 *ngIf="!isLoggedIn()"> Witaj, gość!</h2>
-        <h2 *ngIf="isLoggedIn()"> Witaj, zalogowany uzytkowniku!</h2>
+        <h2 *ngIf="isLoggedIn()"> Witaj, {{getUserName()}}!</h2>
 
     </div>
 </mat-card>

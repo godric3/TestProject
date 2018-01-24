@@ -20,26 +20,43 @@ export class UserService {
     }, options)
   }
 
-  loginUser(username: string, password: string){
+  loginUser(username: string, password: string) {
     let headers = new Headers({ 'Content_Type': 'application/json' });
     let options = new RequestOptions({ headers: headers })
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:8080/TestProject/api/user/login', {
       username: username,
       password: password
-    }, options) ;
-    }
-
-    logout(){
-      localStorage.removeItem('auth_token')
-    }
-
-    saveToken(tokenBody:string){
-      localStorage.setItem('auth_token',tokenBody)
-    }
-    
-    isLoggedIn():boolean{
-        return !!localStorage.getItem('auth_token')
-    }
+    }, options);
   }
+
+  logoutUser() {
+    localStorage.removeItem('auth_token')
+    // post delete token
+  }
+
+  saveToken(tokenBody: string) {
+    localStorage.setItem('auth_token', tokenBody)
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('auth_token')
+  }
+
+  setUsernNameFromToken(token: string) {
+    let index = token.indexOf("|");
+    if (index > 0)
+      token = token.substring(0, index);
+    return token
+  }
+
+  getLoggedUserName() {
+    if (!!localStorage.getItem('auth_token')) {
+      let token = localStorage.getItem('auth_token');
+      let nameUser = this.setUsernNameFromToken(token)
+      return nameUser
+    } else 
+    return null
+  }
+}
 

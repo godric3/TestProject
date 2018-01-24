@@ -9,25 +9,39 @@ import { Router } from '@angular/router';
 })
 export class RegisterPageComponent implements OnInit {
 
-  constructor(private userService: UserService, private router:Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
-  private fullImagePath = '/assets/images-hello-site.jpg'
+  private fullImagePath = '/TestProject/ng/assets/images-hello-site.jpg'
   userName: string;
   password: string;
-
+  validMessage: string;
   ngOnInit() {
     this.userName = ''
     this.password = ''
+    this.validMessage = null 
   }
 
-  registerUser(){
-    this.userService.registerUser(this.userName,this.password).subscribe(res =>{
-      if(res && res.statusText=="OK"){
-        this.userService.freshRegister = true
-        this.router.navigate(['/login'])
+  registerUser() {
+    this.validMessage = null 
+    if (this.userName.length > 5 && this.password.length > 5) {
+      this.userService.registerUser(this.userName, this.password).subscribe(res => {
+        if (res.statusText == "OK") {
+          this.userService.freshRegister = true
+          this.router.navigate(['/login'])
 
-      }
-    })
+        }
+      },
+        err => {
+          if (err.statusText == "Conflict") {
+            console.log("Conflict");
+            this.validMessage = "Obecny login jest juz w bazie!"
+          }
+
+        }
+      )
+    } else {
+      this.validMessage = "Login lub haslo za krótkie!"
+    }
   }
 
 }

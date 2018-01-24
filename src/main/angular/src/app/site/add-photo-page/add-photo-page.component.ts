@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AddPhotoPageComponent implements OnInit {
 
   constructor() { }
-  private fullImagePath = '/assets/images-hello-site.jpg'
+  private fullImagePath = '/TestProject/ng/assets/images-hello-site.jpg'
 
   ngOnInit() {
   }
