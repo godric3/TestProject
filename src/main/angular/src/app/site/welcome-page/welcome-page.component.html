@@ -1,20 +1,13 @@
 <br>
-<div class="hello-message"><h1>Photo Galllery</h1></div>
 <mat-card class="example-card">
-    <div class="wrapper">
-        <ui-carousel [infinite]="true" [fade]="true" [speed]="500" height="300px" width="1200px">
-            <ui-carousel-item>
-                <img src="https://kistudios.com/wp-content/uploads/2017/01/gloss_black_vinyl.jpg"
-                    alt="" draggable="false">
-            </ui-carousel-item>
-            <ui-carousel-item>
-                <img src="https://kistudios.com/wp-content/uploads/2017/01/gloss_black_vinyl.jpg" alt="" draggable="false">
-            </ui-carousel-item>
-            <ui-carousel-item>
-                <img src="https://kistudios.com/wp-content/uploads/2017/01/gloss_black_vinyl.jpg" alt="" draggable="false">
-            </ui-carousel-item>
-        </ui-carousel>
+    <div class="hello-message">
+        <h1>Galeria zdjęć</h1>
+        <h2 *ngIf="!isLoggedIn()"> Witaj, gość!</h2>
+        <h2 *ngIf="isLoggedIn()"> Witaj, zalogowany uzytkowniku!</h2>
+
     </div>
 </mat-card>
-<pre class="pre-scrollable"><code>{{  resultsGet | json  }} </code> </pre>
-<pre class="pre-scrollable"><code>{{  resultPost | json  }} </code> </pre>
+<br>
+<mat-card class="example-card">
+    <img class="example-image"[src]="fullImagePath" >
+</mat-card>

@@ -1,0 +1,2 @@
+mvn exec:exec@exec-npm-ng-build
+mvn wildfly:deploy

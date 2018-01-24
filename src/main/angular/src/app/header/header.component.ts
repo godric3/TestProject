@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogRegistrationComponent } from '../dialog-registration/dialog-registration.component';
+
 import { MatDialog } from '@angular/material/dialog';
-import { DialogLoginComponent } from '../dialog-login/dialog-login.component';
+import { UserService } from '../services/user-service.service';
+
 
 @Component({
   selector: 'app-header',
@@ -10,26 +11,17 @@ import { DialogLoginComponent } from '../dialog-login/dialog-login.component';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(private userService:UserService) { }
 
   ngOnInit() {
   }
 
-  openRegistrationDialog() {
-    let dialogRef = this.dialog.open(DialogRegistrationComponent, {
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The registration dialog was closed');
-    });
+  isLoggedIn(){
+    return this.userService.isLoggedIn()
   }
 
-  openLoginDialog() {
-    let dialogRef = this.dialog.open(DialogLoginComponent, {
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The login dialog was closed');
-    });
+  logout(){
+    this.userService.logout()
+    console.log("Wylogowano")
   }
 }

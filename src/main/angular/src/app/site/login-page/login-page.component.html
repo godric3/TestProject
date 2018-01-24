@@ -1,0 +1,24 @@
+<mat-card class="example-card">
+  <mat-card-header>
+      <mat-card-title>Logowanie</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+                <form class="example-form">
+              <mat-form-field class="example-full-width">
+                  <input matInput  [(ngModel)]="userName" name="userName" placeholder="Login">
+              </mat-form-field>
+              <br>
+              <mat-form-field>
+                <input matInput placeholder="Enter your password" [(ngModel)]="password" name="password" [type]="hide ? 'password' : 'text'">
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+              </mat-form-field>   
+              <div *ngIf="registerSukcess">Gratulujemy! Teraz możesz się zalogować</div>
+              <div *ngIf="message">{{message}}</div>
+          </form>
+          <button mat-raised-button color="primary" (click)="loginUser()">Login</button>
+  </mat-card-content>
+</mat-card>
+<br>
+<mat-card class="example-card2">
+    <img class="example-image"[src]="fullImagePath" >
+</mat-card>

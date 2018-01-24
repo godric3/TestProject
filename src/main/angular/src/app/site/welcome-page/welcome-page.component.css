@@ -1,0 +1,13 @@
+.hello-message {
+    text-align: center;
+}
+.example-card {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+.example-image {
+    width: auto;
+    margin: auto;
+    display: block;
+  }
