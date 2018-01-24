@@ -64,13 +64,13 @@ public class HelloWorld {
 		testManager.save(testEntity);
 		return Response.ok("created id: " + testEntity.getId() + " name: "+testEntity.getName()).build();
 	}
-	@GET
-	@Path("/show/{id}")
-	public Response show(@PathParam("id") int id) {
-		TestEntity testEntity=testManager.find(id);
-		if(testEntity == null)
-			return Response.status(Status.NOT_FOUND).build();
-		return Response.ok("found id: " + testEntity.getId() + " name: "+testEntity.getName()).build();
-	}
+//	@GET
+//	@Path("/show/{id}")
+//	public Response show(@PathParam("id") int id) {
+//		TestEntity testEntity=testManager.find(id);
+//		if(testEntity == null)
+//			return Response.status(Status.NOT_FOUND).build();
+//		return Response.ok("found id: " + testEntity.getId() + " name: "+testEntity.getName()).build();
+//	}
 
 }

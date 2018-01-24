@@ -5,7 +5,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.ws.rs.NotFoundException;
+
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 
 
 public abstract class GenericDAO<T> {
@@ -25,10 +26,10 @@ public abstract class GenericDAO<T> {
 		entityManager.merge(entity);
 	}
 
-	public T find(int entityId) throws NotFoundException{ //TODO: maybe change to our own exception if more will be needed
+	public T find(int entityId) throws EntityNotFound{
 		T tmp=(T) entityManager.find(getClassType(), entityId);
 		if(tmp==null){
-			throw new NotFoundException();
+			throw new EntityNotFound();
 		}
 		return tmp; 
 	}

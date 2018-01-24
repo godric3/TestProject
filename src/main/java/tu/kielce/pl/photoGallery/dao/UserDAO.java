@@ -1,9 +1,10 @@
 package tu.kielce.pl.photoGallery.dao;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.ws.rs.NotFoundException;
 
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.model.User;
 
 @Stateless
@@ -14,13 +15,15 @@ public class UserDAO extends GenericDAO<User> {
 		return User.class;
 	}
 
-	public User getByUsername(String username) throws NotFoundException {
+	public User getByUsername(String username) throws EntityNotFound {
 		Query q = entityManager.createNamedQuery("User.findByUsername", User.class);
 		q.setParameter("username", username);
-		User user = (User) q.getSingleResult();
-		if (user != null)
-			return user;
-		else
-			throw new NotFoundException();
+		User user = null;
+		try {
+			user = (User) q.getSingleResult();
+		} catch (NoResultException e) {
+			throw new EntityNotFound();
+		}
+		return user;
 	}
 }

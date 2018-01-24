@@ -17,16 +17,16 @@ public class TestManager {
 	@EJB
 	TestDAO testDAO;
 	
-	public TestEntity getTestEntity(int id){
-		return testDAO.find(id);
-	}
+//	public TestEntity getTestEntity(int id){
+//		return testDAO.find(id);
+//	}
 
 	public void save(TestEntity testEntity) {
 		testDAO.create(testEntity);
 		
 	}
 
-	public TestEntity find(int id) {
-		return testDAO.find(id);
-	}
+//	public TestEntity find(int id) {
+//		return testDAO.find(id);
+//	}
 }
