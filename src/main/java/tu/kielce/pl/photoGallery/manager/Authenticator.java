@@ -12,20 +12,32 @@ public class Authenticator {
 
 	@EJB
 	UserDAO userDAO;
+
 	public boolean validateToken(String token) {
-		if((token==null)||(token.isEmpty())){
+		if ((token == null) || (token.isEmpty())) {
 			return false;
 		}
-		String []tmp=token.split("\\|");
-		try{
+		String[] tmp = token.split("\\|");
+		try {
 			User user = userDAO.getByUsername(tmp[0]);
-			if(token.equals(user.getToken())){
+			if (token.equals(user.getToken())) {
 				return true;
 			}
-		}catch(EntityNotFound e){
+		} catch (EntityNotFound e) {
 			return false;
 		}
 		return false;
+	}
+
+	public void invalidateToken(String token) {
+		String[] tmp = token.split("\\|");
+		try {
+			User user = userDAO.getByUsername(tmp[0]);
+			user.setToken("");
+			userDAO.update(user);
+		} catch (EntityNotFound e) {
+
+		}
 	}
 
 }

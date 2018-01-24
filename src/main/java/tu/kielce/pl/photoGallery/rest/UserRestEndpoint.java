@@ -2,9 +2,12 @@ package tu.kielce.pl.photoGallery.rest;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -13,6 +16,8 @@ import tu.kielce.pl.photoGallery.dto.UserDTO;
 import tu.kielce.pl.photoGallery.exception.EntityAlreadyExist;
 import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.exception.WrongPassword;
+import tu.kielce.pl.photoGallery.filter.Secured;
+import tu.kielce.pl.photoGallery.manager.Authenticator;
 import tu.kielce.pl.photoGallery.manager.UserManager;
 import tu.kielce.pl.photoGallery.model.User;
 
@@ -23,6 +28,8 @@ public class UserRestEndpoint {
 
 	@EJB
 	UserManager userManager;
+	@EJB
+	Authenticator auth;
 
 	@POST
 	@Path("/")
@@ -66,5 +73,14 @@ public class UserRestEndpoint {
 		} else {
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("SHOULD NOT HAPPEN").build();
 		}
+	}
+
+	@DELETE
+	@Path("/login")
+	@Produces("application/json")
+	@Secured
+	public Response logout(@Context HttpHeaders headers) {
+		auth.invalidateToken(headers.getRequestHeader("Authorization").get(0));
+		return Response.ok().build();
 	}
 }
