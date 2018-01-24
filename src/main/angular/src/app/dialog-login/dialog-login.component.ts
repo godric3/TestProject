@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserServiceService } from '../services/user-service.service';
 
 @Component({
   selector: 'app-dialog-login',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogLoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService:UserServiceService) { }
 
   ngOnInit() {
   }
 
+  loginUser(){
+    this.userService.loginUser('karol','policja') ;
+  }
 }

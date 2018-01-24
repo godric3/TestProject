@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserServiceService } from '../services/user-service.service';
 
 @Component({
   selector: 'app-dialog-registration',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogRegistrationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private userService:UserServiceService) { }
 
   ngOnInit() {
   }
+  registerUser(){
+    this.userService.registerUser('karol','policja').subscribe(res =>{
+      if(res)
+        console.log(res.statusText)
+    })
+  }
+
 
 }

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, } from '@angular/core';
+import { Routes,RouterModule  } from '@angular/router';
 
 import { AppComponent } from './app.component';
 
@@ -17,8 +18,13 @@ import { JwtInterceptor } from './helpers/jwt-interceptor';
 import { DialogLoginComponent } from './dialog-login/dialog-login.component';
 import { DialogRegistrationComponent } from './dialog-registration/dialog-registration.component';
 import { HeaderComponent } from './header/header.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { UICarouselModule } from "ui-carousel";
+import { WelcomePageComponent } from './site/welcome-page/welcome-page.component';
+import { AddPhotoPageComponent } from './site/add-photo-page/add-photo-page.component';
+import { GetPhotoPageComponent } from './site/get-photo-page/get-photo-page.component';
+import { UserServiceService } from './services/user-service.service';
+import { HttpModule } from '@angular/http';
 
 
 
@@ -26,6 +32,12 @@ import { UICarouselModule } from "ui-carousel";
 
 
 
+const appRoutes: Routes = [
+  {path: '', component:WelcomePageComponent },
+  {path: 'home', component:WelcomePageComponent },
+  {path: 'addPhoto', component:AddPhotoPageComponent},
+  {path: 'getPhoto', component:GetPhotoPageComponent},
+]
 
 
 
@@ -34,11 +46,15 @@ import { UICarouselModule } from "ui-carousel";
     AppComponent,
     DialogLoginComponent,
     DialogRegistrationComponent,
-    HeaderComponent
+    HeaderComponent,
+    WelcomePageComponent,
+    AddPhotoPageComponent,
+    GetPhotoPageComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpModule,
+    RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
@@ -55,9 +71,10 @@ import { UICarouselModule } from "ui-carousel";
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-  },
+    },
+    UserServiceService
   ],
-  entryComponents:[
+  entryComponents: [
     DialogLoginComponent,
     DialogRegistrationComponent
   ],
