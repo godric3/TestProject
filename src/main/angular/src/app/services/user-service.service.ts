@@ -27,7 +27,7 @@ export class UserServiceService {
       username: username,
       password: password
     }, options).subscribe(res=>{
-      console.log(res.text)
+      console.log(res.text())
 
     })
   }
