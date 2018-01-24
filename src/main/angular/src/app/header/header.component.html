@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>Inteligentne Usługi Informacyjne - projekt</span>
+    <span class="example-spacer-before-navigate-button"></span>
+    <div class="button-row">
+      <button mat-raised-button color="warn" class="buttonInHeader" routerLink="/home">Strona główna</button>
+      <button mat-raised-button color="warn" class="buttonInHeader" routerLink="/addPhoto">Dodaj zdjęcie</button>
+      <button mat-raised-button color="warn" class="buttonInHeader" routerLink="/getPhoto"> Pokaż zdjęcia</button>
+    </div>
+    <span class="example-spacer"></span>
+    <div class="button-row">
+      <button mat-raised-button color="primary" class="buttonInHeader" (click)="openRegistrationDialog()">Rejestracja</button>
+      <button mat-raised-button color="primary" class="buttonInHeader" (click)="openLoginDialog()">Logowanie</button>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

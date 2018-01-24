@@ -37,6 +37,13 @@ public class HelloWorld {
 	public Response helloWorldResponse() {
 		return Response.ok("Hello World!").build();
 	}
+	
+	@GET
+	@Path("/responseWithHeader")
+	public Response helloWorldResponseWithHeader() {
+		return Response.ok("Hello World!").header("Access-Control-Allow-Origin", "*").build();
+	}
+	
 	@GET
 	@Path("/notFoundResponse")
 	public Response helloWorldNotFoundResponse() {
