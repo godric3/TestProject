@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from '../services/user-service.service';
-import { Router } from '@angular/router/src/router';
+import { Router } from '@angular/router';
 
 
 @Component({
