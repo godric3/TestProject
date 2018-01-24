@@ -26,7 +26,7 @@ public abstract class GenericDAO<T> {
 		entityManager.merge(entity);
 	}
 
-	public T find(int entityId) throws EntityNotFound{
+	public T find(Object entityId) throws EntityNotFound{
 		T tmp=(T) entityManager.find(getClassType(), entityId);
 		if(tmp==null){
 			throw new EntityNotFound();
