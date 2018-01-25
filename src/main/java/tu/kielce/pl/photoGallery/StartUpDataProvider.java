@@ -5,9 +5,13 @@ import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 
+import tu.kielce.pl.photoGallery.dao.CategoryDAO;
 import tu.kielce.pl.photoGallery.dao.TagDAO;
 import tu.kielce.pl.photoGallery.exception.EntityAlreadyExist;
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
+import tu.kielce.pl.photoGallery.exception.WrongPassword;
 import tu.kielce.pl.photoGallery.manager.UserManager;
+import tu.kielce.pl.photoGallery.model.Category;
 import tu.kielce.pl.photoGallery.model.Tag;
 
 @Startup
@@ -20,6 +24,8 @@ public class StartUpDataProvider {
 	@EJB
 	UserManager userManager;
 
+	@EJB
+	CategoryDAO categoryDAO;
 	@PostConstruct
 	public void init() {
 		Tag tag = new Tag();
@@ -29,9 +35,20 @@ public class StartUpDataProvider {
 		tag.setName("cats");
 		tagDAO.create(tag);
 
+		Category category = new Category();
+		category.setName("animals");
+		categoryDAO.create(category);
+
 		try {
 			userManager.registerUser("admin", "admin");
+			userManager.loginUser("admin", "admin");
 		} catch (EntityAlreadyExist e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WrongPassword e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EntityNotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
