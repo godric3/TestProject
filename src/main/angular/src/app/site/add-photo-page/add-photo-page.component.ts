@@ -38,7 +38,6 @@ export class AddPhotoPageComponent implements OnInit {
       formData.append("image", fileBrowser.files[0])
       formData.append("category", this.category)
       formData.append("tags", json_array)
-      console.log(formData.get("image"));
       this.imageService.sendImage(formData).subscribe(res => {
         console.log(res)
       },

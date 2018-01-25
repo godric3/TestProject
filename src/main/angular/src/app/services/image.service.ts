@@ -5,12 +5,12 @@ import { UserService } from './user-service.service';
 @Injectable()
 export class ImageService {
 
-  constructor(private http: Http,userService:UserService) { }
+  constructor(private http: Http,private userService:UserService) { }
 
   sendImage(data: FormData) {
     let headers = new Headers({ 'Content_Type': 'multipart/form-data' });
-    //headers.append('Authorization',this.userService.getToken())
-    headers.append('Authorization', 'token')
+    headers.append('Authorization',this.userService.getToken())
+    //headers.append('Authorization', 'token')
     let options = new RequestOptions({ headers: headers })
     return this.http.post('http://localhost:8080/TestProject/api/image', data, options)
   }
