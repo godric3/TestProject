@@ -14,7 +14,6 @@ import tu.kielce.pl.photoGallery.dao.ImageDAO;
 import tu.kielce.pl.photoGallery.dao.TagDAO;
 import tu.kielce.pl.photoGallery.dao.TagImageDAO;
 import tu.kielce.pl.photoGallery.dto.ImageDTO;
-import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.model.Category;
 import tu.kielce.pl.photoGallery.model.Image;
 import tu.kielce.pl.photoGallery.model.Tag;
@@ -34,32 +33,17 @@ public class ImageManager {
 
 	public void uploadImage(ImageDTO imageDTO) {
 		Image image = new Image();
-		Category category;
-		try {
-			category = categoryDAO.getByName(imageDTO.getCategory());
-		} catch (EntityNotFound e) {
-			Category cat = new Category();
-			cat.setName(imageDTO.getCategory());
-			category = categoryDAO.create(cat);
-		}
+		Category category = categoryDAO.getByNameOrCreate(imageDTO.getCategory());
 		image.setCategoryName(category);
 		image = imageDAO.create(image);
 		Tag tmpTag;
 		for (String tag : imageDTO.getTags()) {
-			try {
-				tmpTag = tagDAO.find(tag);
-			} catch (EntityNotFound e) {
-				Tag t = new Tag();
-				t.setName(tag);
-				tmpTag = tagDAO.create(t);
-			}
+			tmpTag = tagDAO.getByNameOrCreate(tag);
 			TagImage tagImage = new TagImage();
 			tagImage.setImage(image);
 			tagImage.setTag(tmpTag);
 			tagImageDAO.create(tagImage);
-
 		}
-
 	}
 
 	/* source: https://javatutorial.net/ */
