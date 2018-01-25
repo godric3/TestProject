@@ -1,5 +1,6 @@
 package tu.kielce.pl.photoGallery.rest;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.json.JSONArray;
 
 import tu.kielce.pl.photoGallery.dto.ImageDTO;
+import tu.kielce.pl.photoGallery.filter.Secured;
 import tu.kielce.pl.photoGallery.manager.ImageManager;
 
 @Path("image")
@@ -35,8 +37,16 @@ public class ImageRestEndpoint {
 
 	@Path("/{id}")
 	@GET
-	public Response getImage(@PathParam("id") int id) {
-		return Response.ok().build();
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@Secured
+	public Response getImage(@PathParam("id") String id) {
+		File image=null;
+		try {
+			image = imageManager.loadImage(id);
+		} catch (IOException e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(image, MediaType.APPLICATION_OCTET_STREAM).header("Content-Disposition", "attachment; filename=\"" + image.getName() + "\"" ).build();
 	}
 
 	@Path("/details/{id}")
@@ -48,6 +58,7 @@ public class ImageRestEndpoint {
 	@Path("/")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@POST
+	@Secured
 	public Response uploadImage(MultipartFormDataInput input) {
 		System.out.println("It's alive!");
 		ImageDTO imageDTO = new ImageDTO();
@@ -75,7 +86,12 @@ public class ImageRestEndpoint {
 			e.printStackTrace();
 			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
-		imageManager.uploadImage(imageDTO);
+		try {
+			imageManager.uploadImage(imageDTO);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 
 		return Response.ok().build();
 	}
