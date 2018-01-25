@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GetPhotoPageComponent implements OnInit {
 
+  filtrs = [
+    {value: 'filtr-0', viewValue: 'Kategoria'},
+    {value: 'filtr-1', viewValue: 'Tagi'},
+    {value: 'filtr-2', viewValue: 'Rozmiar'}
+  ];
+
   constructor() { }
 
   ngOnInit() {

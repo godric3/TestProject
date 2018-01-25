@@ -1,14 +1,23 @@
 <div class="row">
   <div class="col-sm-8">
     <mat-card class="example-card">
-  <mat-card-header></mat-card-header>
-  <mat-card-content>Obrazy</mat-card-content>
+      <mat-card-header></mat-card-header>
+      <mat-card-content>Obrazy</mat-card-content>
     </mat-card>
   </div>
   <div class="col-sm-4">
     <mat-card class="example-card">
       <mat-card-header></mat-card-header>
-      <mat-card-content>Filtry</mat-card-content>
-        </mat-card>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-select placeholder="Wybierz filtr">
+            <mat-option *ngFor="let filtr of filtrs" [value]="filtr.value">
+              {{ filtr.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <p><button  mat-raised-button color="primary">Wyszukaj</button></p>
+      </mat-card-content>
+    </mat-card>
   </div>
-</div> 
+</div>
