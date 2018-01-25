@@ -31,12 +31,19 @@ export class UserService {
   }
 
   logoutUser() {
+    let headers = new Headers({ 'Authorization': this.getToken()});
+    let options = new RequestOptions({ headers: headers })
     localStorage.removeItem('auth_token')
+    return this.http.delete('http://localhost:8080/TestProject/api/user/login',options)
     // post delete token
   }
 
   saveToken(tokenBody: string) {
     localStorage.setItem('auth_token', tokenBody)
+  }
+
+  getToken(){
+    return localStorage.getItem('auth_token')
   }
 
   isLoggedIn(): boolean {

@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.userService.logoutUser()
+    this.userService.logoutUser() ;
     this.router.navigate(['/home'])
   }
 
