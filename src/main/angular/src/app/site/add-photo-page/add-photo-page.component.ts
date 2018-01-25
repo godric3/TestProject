@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ImageService } from '../../services/image.service';
+import { Input } from '@angular/compiler/src/core';
 
 @Component({
   selector: 'app-add-photo-page',
@@ -8,13 +9,10 @@ import { ImageService } from '../../services/image.service';
   styleUrls: ['./add-photo-page.component.css']
 })
 export class AddPhotoPageComponent implements OnInit {
-  fileToUpload: File;
-
   @ViewChild("fileInput") fileInput;
   private fullImagePath = '/TestProject/ng/assets/images-hello-site.jpg'
   category: string
   tags: string[]
-
   newTag: string
   constructor(private imageService: ImageService) { }
 
@@ -27,9 +25,6 @@ export class AddPhotoPageComponent implements OnInit {
     this.newTag = '';
   }
 
-  handleFileInput(file: FileList) {
-    this.fileToUpload = file.item(0)
-  }
   sendImage() {
     let fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0]) {
@@ -44,7 +39,13 @@ export class AddPhotoPageComponent implements OnInit {
         err => {
           console.log(err)
         });
+      this.clear()
     }
   }
 
+  clear() {
+    this.category = ''
+    this.tags = []
+    this.fileInput.value = ''
+  }
 }
