@@ -26,6 +26,11 @@ import { HttpModule } from '@angular/http';
 import { LoginPageComponent } from './site/login-page/login-page.component';
 import { RegisterPageComponent } from './site/register-page/register-page.component';
 import { FormsModule } from '@angular/forms';
+import {MatListModule} from '@angular/material/list';
+import { ImageService } from './services/image.service';
+import {MatSelectModule} from '@angular/material/select';
+
+
 
 
 
@@ -67,7 +72,9 @@ const appRoutes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatDialogModule,
-    UICarouselModule
+    UICarouselModule,
+    MatListModule,
+    MatSelectModule
 
   ],
   providers: [
@@ -76,7 +83,8 @@ const appRoutes: Routes = [
       useClass: JwtInterceptor,
       multi: true
     },
-    UserService
+    UserService,
+    ImageService
   ],
   entryComponents: [
   ],

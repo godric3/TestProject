@@ -13,7 +13,7 @@ export class UserService {
   registerUser(username: string, password: string) {
     let headers = new Headers({ 'Content_Type': 'application/json' });
     let options = new RequestOptions({ headers: headers })
-    headers.append('Content-Type', 'application/json');
+    //headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:8080/TestProject/api/user/', {
       username: username,
       password: password
@@ -23,7 +23,7 @@ export class UserService {
   loginUser(username: string, password: string) {
     let headers = new Headers({ 'Content_Type': 'application/json' });
     let options = new RequestOptions({ headers: headers })
-    headers.append('Content-Type', 'application/json');
+   // headers.append('Content-Type', 'application/json');
     return this.http.post('http://localhost:8080/TestProject/api/user/login', {
       username: username,
       password: password
