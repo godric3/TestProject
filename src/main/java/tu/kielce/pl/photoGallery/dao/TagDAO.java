@@ -1,12 +1,11 @@
 package tu.kielce.pl.photoGallery.dao;
 
 import javax.ejb.Stateless;
-import javax.swing.text.html.HTML.Tag;
 
-import tu.kielce.pl.photoGallery.model.Image;
+import tu.kielce.pl.photoGallery.model.Tag;
 
 @Stateless
-public class TagDAO extends GenericDAO<Image> {
+public class TagDAO extends GenericDAO<Tag> {
 
 	@Override
 	protected Class<?> getClassType() {
