@@ -44,6 +44,7 @@ export class AddPhotoPageComponent implements OnInit {
   }
 
   clear() {
+    console.log('clear')
     this.category = ''
     this.tags = []
     this.fileInput.value = ''

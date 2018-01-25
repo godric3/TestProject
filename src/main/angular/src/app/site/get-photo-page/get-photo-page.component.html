@@ -1,23 +1,48 @@
 <div class="row">
-  <div class="col-sm-8">
+  <div class="col-sm-7">
     <mat-card class="example-card">
       <mat-card-header></mat-card-header>
       <mat-card-content>Obrazy</mat-card-content>
     </mat-card>
   </div>
-  <div class="col-sm-4">
-    <mat-card class="example-card">
-      <mat-card-header></mat-card-header>
-      <mat-card-content>
+  <div class="col-sm-5">
+    <div class="col-sm-4">
+      <form class="example-form">
         <mat-form-field>
-          <mat-select placeholder="Wybierz filtr">
+          <mat-select [(value)]="selected" (change)="showChange()" placeholder="Wybierz filtr">
             <mat-option *ngFor="let filtr of filtrs" [value]="filtr.value">
               {{ filtr.viewValue }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <p><button  mat-raised-button color="primary">Wyszukaj</button></p>
-      </mat-card-content>
-    </mat-card>
+        <mat-form-field *ngIf="checkSelected('filtr0')" class="example-full-width">
+          <input *ngIf="checkSelected('filtr0')" matInput name="filtrType1" [(ngModel)]="filtrType" placeholder="Napisz kategorie">
+        </mat-form-field>
+        <mat-form-field *ngIf="checkSelected('filtr1')" class="example-full-width">
+          <input *ngIf="checkSelected('filtr1')" matInput name="filtrType2" [(ngModel)]="filtrType" placeholder="Napisz tagi">
+        </mat-form-field>
+        <mat-form-field *ngIf="checkSelected('filtr2')" class="example-full-width">
+          <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" [(ngModel)]="filtrType" placeholder="Wysokosc">
+        </mat-form-field>
+        <mat-form-field *ngIf="checkSelected('filtr2')" class="example-full-width">
+          <input *ngIf="checkSelected('filtr2')" matInput name="filtrType4" [(ngModel)]="filtrType" placeholder="Szerokosc">
+        </mat-form-field>
+
+        <!--<input *ngIf="checkSelected('filtr1')" matInput name="filtrType2" placeholder="Wpisz tagi">
+        <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Szerokosc">
+        <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Dlugosc">
+        -->
+        <br>
+      </form>
+
+      <button mat-raised-button color="primary">Wyszukaj</button>
+    </div>
+    <div class="col-sm-1">
+      <mat-list *ngIf="checkSelected('filtr1')" class="example-full-width" role="list">
+        <h3 mat-subheader>Tagi</h3>
+        <mat-list-item role="listitem">tag1</mat-list-item>
+        <mat-list-item role="listitem">tag2</mat-list-item>
+      </mat-list>
+    </div>
+
   </div>
-</div>

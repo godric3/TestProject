@@ -74,7 +74,8 @@ const appRoutes: Routes = [
     MatDialogModule,
     UICarouselModule,
     MatListModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
 
   ],
   providers: [
