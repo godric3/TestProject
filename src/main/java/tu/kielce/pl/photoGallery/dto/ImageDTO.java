@@ -7,6 +7,8 @@ public class ImageDTO {
 	private String category;
 	private InputStream inputStream;
 	private List<String> tags;
+	private String filename;
+	private String extension;
 	public String getCategory() {
 		return category;
 	}
@@ -24,5 +26,17 @@ public class ImageDTO {
 	}
 	public void setTags(List<String> tags) {
 		this.tags = tags;
+	}
+	public String getFilename() {
+		return filename;
+	}
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+	public String getExtension() {
+		return extension;
+	}
+	public void setExtension(String extension) {
+		this.extension = extension;
 	}
 }

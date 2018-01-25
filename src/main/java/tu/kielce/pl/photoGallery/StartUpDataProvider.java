@@ -8,6 +8,8 @@ import javax.ejb.Startup;
 import tu.kielce.pl.photoGallery.dao.CategoryDAO;
 import tu.kielce.pl.photoGallery.dao.TagDAO;
 import tu.kielce.pl.photoGallery.exception.EntityAlreadyExist;
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
+import tu.kielce.pl.photoGallery.exception.WrongPassword;
 import tu.kielce.pl.photoGallery.manager.UserManager;
 import tu.kielce.pl.photoGallery.model.Category;
 import tu.kielce.pl.photoGallery.model.Tag;
@@ -39,7 +41,14 @@ public class StartUpDataProvider {
 
 		try {
 			userManager.registerUser("admin", "admin");
+			userManager.loginUser("admin", "admin");
 		} catch (EntityAlreadyExist e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (WrongPassword e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EntityNotFound e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

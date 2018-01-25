@@ -40,13 +40,14 @@ public class ImageRestEndpoint {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Secured
 	public Response getImage(@PathParam("id") String id) {
-		File image=null;
+		File image = null;
 		try {
 			image = imageManager.loadImage(id);
+			return Response.ok(image, MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition", "attachment; filename=\"" + image.getName() + "\"").build();
 		} catch (IOException e) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		return Response.ok(image, MediaType.APPLICATION_OCTET_STREAM).header("Content-Disposition", "attachment; filename=\"" + image.getName() + "\"" ).build();
 	}
 
 	@Path("/details/{id}")
@@ -66,6 +67,7 @@ public class ImageRestEndpoint {
 		List<InputPart> categoryInputParts = uploadForm.get("category");
 		List<InputPart> tagsInputParts = uploadForm.get("tags");
 		List<InputPart> fileInputParts = uploadForm.get("image");
+		List<InputPart> titleInputParts = uploadForm.get("title");
 		System.out.println(categoryInputParts.size());
 		try {
 			for (InputPart part : categoryInputParts) {
@@ -81,6 +83,12 @@ public class ImageRestEndpoint {
 			}
 			for (InputPart part : fileInputParts) {
 				imageDTO.setInputStream(part.getBody(InputStream.class, null));
+			}
+			for (InputPart part : titleInputParts) {
+				System.out.println(part.getBodyAsString());
+				String[] tmp = part.getBodyAsString().split("\\.");
+				imageDTO.setFilename(tmp[0]);
+				imageDTO.setExtension(tmp[1]);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
