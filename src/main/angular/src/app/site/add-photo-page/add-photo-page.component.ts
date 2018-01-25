@@ -31,6 +31,7 @@ export class AddPhotoPageComponent implements OnInit {
       const formData = new FormData();
       let json_array = JSON.stringify(this.tags)
       formData.append("image", fileBrowser.files[0])
+      formData.append("title", this.getImageTittle(fileBrowser.files[0].name))
       formData.append("category", this.category)
       formData.append("tags", json_array)
       this.imageService.sendImage(formData).subscribe(res => {
@@ -48,4 +49,11 @@ export class AddPhotoPageComponent implements OnInit {
     this.tags = []
     this.fileInput.value = ''
   }
+  getImageTittle(nameWithDot: string) {
+    let index = nameWithDot.indexOf(".");
+    if (index > 0)
+      nameWithDot = nameWithDot.substring(0, index);
+    return nameWithDot
+  }
+
 }
