@@ -54,7 +54,10 @@ export class GetPhotoPageComponent implements OnInit {
     })
   }
 
-  getAllImages(){
-      
+  getAllImages() {
+    this.imageService.getAllImages().subscribe(res => {
+      console.log(res)
+    })
+
   }
 }

@@ -21,12 +21,12 @@ export class ImageService {
   }
 
   getImage(id:string):Observable<any>{
-    //let headers = new Headers() 
-    //let myParams = new URLSearchParams()
-    //headers.append('Authorization',this.userService.getToken())
-    //myParams.append('id',id)
-    //let options = new RequestOptions({ headers: headers})
     let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
     return this.httpClient.get('http://localhost:8080/TestProject/api/image/'+id,{headers:headers,responseType:'blob'})
+  }
+
+  getAllImages():Observable<any>{
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/',{headers:headers})
   }
 }
