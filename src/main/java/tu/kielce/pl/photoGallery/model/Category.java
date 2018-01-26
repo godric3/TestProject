@@ -10,7 +10,8 @@ import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
-		@NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name") })
+		@NamedQuery(name = "Category.findByName", query = "SELECT c FROM Category c WHERE c.name = :name"),
+		@NamedQuery(name = "Category.findAllWithImageCount", query = "SELECT i.category, COUNT(i.category) FROM Image i GROUP BY i.category") })
 public class Category {
 	@Id
 	private String name;
