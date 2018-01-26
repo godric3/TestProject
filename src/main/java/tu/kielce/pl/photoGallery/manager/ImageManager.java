@@ -16,6 +16,7 @@ import tu.kielce.pl.photoGallery.dao.TagDAO;
 import tu.kielce.pl.photoGallery.dao.TagImageDAO;
 import tu.kielce.pl.photoGallery.dto.ImageDTO;
 import tu.kielce.pl.photoGallery.dto.SavedImageDTO;
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.model.Category;
 import tu.kielce.pl.photoGallery.model.Image;
 import tu.kielce.pl.photoGallery.model.Tag;
@@ -37,6 +38,10 @@ public class ImageManager {
 	public List<String> getAllImageNames() {
 		List<String> names = imageDAO.getAllNames();
 		return names;
+	}
+
+	public Image getImage(String name) throws EntityNotFound{
+		return imageDAO.getByName(name.split("\\.")[0],name.split("\\.")[1]);
 	}
 
 	public void uploadImage(ImageDTO imageDTO) throws IOException {

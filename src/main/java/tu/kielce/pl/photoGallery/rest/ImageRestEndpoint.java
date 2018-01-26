@@ -24,8 +24,11 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.json.JSONArray;
 
 import tu.kielce.pl.photoGallery.dto.ImageDTO;
+import tu.kielce.pl.photoGallery.dto.ImageDetailsDTO;
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.filter.Secured;
 import tu.kielce.pl.photoGallery.manager.ImageManager;
+import tu.kielce.pl.photoGallery.model.Image;
 
 @Path("image")
 @Consumes({ "application/json" })
@@ -59,8 +62,14 @@ public class ImageRestEndpoint {
 
 	@Path("/details/{id}")
 	@GET
-	public Response getImageDetails(@PathParam("id") int id) {
-		return Response.ok().build();
+	public Response getImageDetails(@PathParam("id") String id) {
+		Image image;
+		try {
+			image = imageManager.getImage(id);
+		} catch (EntityNotFound e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(new ImageDetailsDTO(image)).build();
 	}
 
 	@Path("/")

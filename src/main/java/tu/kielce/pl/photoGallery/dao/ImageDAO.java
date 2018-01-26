@@ -3,6 +3,7 @@ package tu.kielce.pl.photoGallery.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 
@@ -20,20 +21,22 @@ public class ImageDAO extends GenericDAO<Image> {
 		return Image.class;
 	}
 
-	public Image getByName(String name) throws NotFoundException {
+	public Image getByName(String url, String extension) throws EntityNotFound {
 		Query q = entityManager.createNamedQuery("Image.findByName", Image.class);
-		q.setParameter("name", name);
-		Image image = (Image) q.getSingleResult();
-		if (image != null)
-			return image;
-		else
-			throw new NotFoundException();
+		q.setParameter("url", url);
+		q.setParameter("extension", extension);
+		Image image;
+		try {
+			image = (Image) q.getSingleResult();
+		} catch (NoResultException e) {
+			throw new EntityNotFound();
+		}
+		return image;
 	}
 
 	public List<String> getAllNames() {
 		Query q = entityManager.createNamedQuery("Image.findAllNames", String.class);
 		List<String> images = q.getResultList();
-		System.out.println(images.get(0));
 		return images;
 	}
 
