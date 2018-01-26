@@ -3,7 +3,12 @@
   }
 
   .example-card {
+    margin-left: 10px;
     width: 300px;
+    margin-right: 10px;
+    float: left;
+    margin-top: 5px;
+    padding-bottom: 0px !important;
   }
   
   .example-header-image {
@@ -12,5 +17,8 @@
   }
  
 .miniImage{
-  max-height: 200px !important 
+  max-height: 300px !important;
+}
+.row{
+  margin-right: 0px !important;
 }

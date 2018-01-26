@@ -2,6 +2,8 @@ import { Component, OnInit, ChangeDetectorRef, } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SafeUrl } from '@angular/platform-browser/src/security/dom_sanitization_service';
+import { MatDialog } from '@angular/material/dialog';
+import { FullSizeImageDialogComponent } from './full-size-image-dialog/full-size-image-dialog.component';
 
 @Component({
   selector: 'app-get-photo-page',
@@ -22,15 +24,17 @@ export class GetPhotoPageComponent implements OnInit {
     { value: 'filtr4', viewValue: 'Nazwa' }
   ];
 
-  constructor(private imageService: ImageService, private sanitizer: DomSanitizer) { }
+  constructor(private imageService: ImageService, private sanitizer: DomSanitizer, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.imageContener = []
   }
 
   addTagToTagsList() {
-    this.tags.push(this.filtrType);
-    this.filtrType = '';
+    if (this.filtrType) {
+      this.tags.push(this.filtrType);
+      this.filtrType = '';
+    }
   }
 
   showChange() {
@@ -54,10 +58,35 @@ export class GetPhotoPageComponent implements OnInit {
     })
   }
 
+  getImageUrlById(id: string) {
+    this.imageService.getImage(id).subscribe(res => {
+      const imageUrl = URL.createObjectURL(res);
+      return imageUrl
+    })
+    return ''
+
+  }
+
   getAllImages() {
     this.imageService.getAllImages().subscribe(res => {
-      console.log(res)
-    })
+      this.imageContener = []
+      let array: any
+      array = res
+      console.log(array)
+      array.forEach(element => {
+        this.imageService.getImage(element).subscribe(res => {
+          console.log(element)
+          const imageUrl = URL.createObjectURL(res);
+          this.imageContener.push(this.sanitizer.bypassSecurityTrustUrl(imageUrl))
+        })
 
+      })
+    })
+  }
+
+  openDialog(imageFile): void {
+    let dialogRef = this.dialog.open(FullSizeImageDialogComponent, {
+      data: { image: imageFile }
+    });
   }
 }
