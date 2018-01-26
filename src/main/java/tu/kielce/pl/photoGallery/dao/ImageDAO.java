@@ -30,6 +30,13 @@ public class ImageDAO extends GenericDAO<Image> {
 			throw new NotFoundException();
 	}
 
+	public List<String> getAllNames() {
+		Query q = entityManager.createNamedQuery("Image.findAllNames", String.class);
+		List<String> images = q.getResultList();
+		System.out.println(images.get(0));
+		return images;
+	}
+
 	public List<Image> getBySize(int minSize, int maxSize) {
 		Query q = entityManager.createNamedQuery("Image.findBySize", Image.class);
 		q.setParameter("minSize", minSize);

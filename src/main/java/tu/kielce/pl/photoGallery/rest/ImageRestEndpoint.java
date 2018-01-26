@@ -35,6 +35,13 @@ public class ImageRestEndpoint {
 	@EJB
 	ImageManager imageManager;
 
+	@Path("/")
+	@GET
+	public Response getAllImageNames() {
+		List<String> names = imageManager.getAllImageNames();
+		return Response.ok(names).build();
+	}
+
 	@Path("/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
