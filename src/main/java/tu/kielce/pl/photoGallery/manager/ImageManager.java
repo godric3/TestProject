@@ -2,10 +2,9 @@ package tu.kielce.pl.photoGallery.manager;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -34,6 +33,11 @@ public class ImageManager {
 	@EJB
 	TagImageDAO tagImageDAO;
 	private static final String rootPath = new File("").getAbsolutePath() + "\\___images";
+
+	public List<String> getAllImageNames() {
+		List<String> names = imageDAO.getAllNames();
+		return names;
+	}
 
 	public void uploadImage(ImageDTO imageDTO) throws IOException {
 		Image image = new Image();

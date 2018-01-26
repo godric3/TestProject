@@ -1,5 +1,7 @@
 package tu.kielce.pl.photoGallery.dao;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -37,6 +39,17 @@ public class CategoryDAO extends GenericDAO<Category> {
 			category = create(cat);
 		}
 		return category;
+	}
+
+	public List<Object[]> getAllWithImageCount() throws EntityNotFound {
+		Query q = entityManager.createNamedQuery("Category.findAllWithImageCount", Category.class);
+		List<Object[]> categoriesWithImageCount = null;
+		try {
+			categoriesWithImageCount = q.getResultList();
+		} catch (NoResultException e) {
+			throw new EntityNotFound();
+		}
+		return categoriesWithImageCount;
 	}
 
 }
