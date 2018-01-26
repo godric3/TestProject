@@ -1,0 +1,72 @@
+\linespread{1.3}%interlinia na 1.5...
+
+%Tytuły rozdziałów bez Rozdział X
+%\titleformat{\section}
+%{\normalfont\Huge\bfseries}{\thechapter.}{20pt}{\Huge}
+
+\makeatletter
+%Kropka po numerze sekcji i podsekcji.
+\renewcommand\@seccntformat[1]{\csname the#1\endcsname.\quad}
+\renewcommand\numberline[1]{#1.\hskip0.7em}
+%strzałka w prawo
+\renewcommand{\rightarrow}{$\,\to\,$}
+\makeatother
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+
+\definecolor{pblue}{rgb}{0.13,0.13,1}
+\definecolor{pgreen}{rgb}{0,0.5,0}
+\definecolor{porange}{rgb}{1.0,0.6,0}
+\definecolor{pgrey}{rgb}{0.46,0.45,0.48}
+\definecolor{pcyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{language=Java,
+	frame=single,
+	showspaces=false,
+	showtabs=false,	
+	breaklines=true,
+	showstringspaces=false,
+	numbers=left,
+	numbersep=10pt,  
+	tabsize=2, 
+	commentstyle=\color{pgreen},
+	keywordstyle=\color{pblue},
+	stringstyle=\color{pgreen},
+	basicstyle=\ttfamily\footnotesize
+%	moredelim=[il][\textcolor{pgrey}]{$$}, %
+%	moredelim=[s][\textcolor{pgrey}]{@}{\(},
+%	moredelim=[is][\textcolor{pgrey}]{\%\%}{\%\%}
+}
+
+\lstdefinelanguage{XML}
+{
+	basicstyle=\ttfamily\footnotesize,
+	alsoletter=-,
+	morestring=[b][\color{black}]",
+	moredelim=[s][\bfseries\color{blue}]{<}{\ },
+	moredelim=[s][\bfseries\color{blue}]{</}{>},
+	moredelim=[l][\bfseries\color{blue}]{/>},
+	moredelim=[l][\bfseries\color{blue}]{>},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s]{<!--}{-->},
+	commentstyle=\color{pgreen},
+	stringstyle=\color{black},
+	identifierstyle=\color{red}
+}
+
+\lstdefinelanguage{XML_SYNTAX}{
+	morekeywords={id},
+	alsoletter=-,
+	morestring=[b]",
+	stringstyle=\color{pgreen},
+	morecomment=[s]{<?}{?>},
+	morecomment=[s]{<!--}{-->},
+	morecomment=[s]{<!}{>},
+	commentstyle=\color{pgreen},
+	moredelim=[s][\color{black}]{![}{]]},
+	moredelim=*[s][\color{blue}]{<}{>},
+	keywordstyle=\color{red},
+}
+

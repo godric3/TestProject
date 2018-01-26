@@ -1,0 +1,132 @@
+\section{Opis użytych technologii}
+
+\subsection{REST}
+REST (Representational state transfer) to styl architektury, który zaproponował Roy Fielding w~swojej rozprawie doktorskiej w~2000 roku \cite{rest_Roy}. Jest to opis jak, według niego, powinna działać sieć Internet. W architekturze REST dane są traktowane jako zasoby do których dostęp jest możliwy dzięki identyfikatorom URI (zazwyczaj hiperłącza). Działania na zasobach są wykonywane przy pomocy prostych, jasno zdefiniowanych operacji. Architektura ta wymusza wykorzystanie architektury klient-serwer oraz preferuje wykorzystanie bezstanowego protokołu komunikacji (najczęściej HTTP). Zasady ułatwiające tworzenie aplikacji REST \cite{rest_book}:
+\begin{itemize}
+	\item identyfikacja zasobów poprzez URI - każdy zasób powinien mieć swój
+                adres, być jednoznacznie
+                identyfikowanym przez URI,
+	\item jednolity interfejs - operacje wykonywane na zasobie są jasno
+                określone poprzez stosowanie odpowiedniej metody HTTP:
+	\begin{itemize}
+		\item GET - pobranie zasobu,
+		\item PUT - stworzenie lub nadpisanie zasobu,
+                \item POST:
+                \begin{itemize}
+			\item stworzenie zasobu podrzędnego(gdy to serwer decyduje pod jakim URI będzie dostępny zasób),
+			\item dodanie danych do istniejącego zasobu,
+		\end{itemize} 
+		\item DELETE - usunięcie zasobu,
+		\item HEAD - pobranie metadanych zasobu,
+		\item OPTIONS - pozwala poznać, co można zrobić z~zasobem tzn. jakich metod HTTP można na nim użyć,
+	\end{itemize}
+	\item samoopisujące się komunikaty - metadane zasobu są dostępne, na ich podstawie można określić sposób reprezentacji zasobu,
+	\item samowystaczalne żądania - interakcja z~zasobem jest bezstanowa, wszystkie potrzebne informacje znajdują się w~żądaniu.
+\end{itemize}
+
+	
+
+Obecnie zastosowanie mają głównie metody GET, która jest wykorzystywana zgodnie z~założeniami oraz POST która zastąpiła inne metody. W takim przypadku sposób wykorzystania zasobu zakodowany jest wewnątrz zapytania. Często jest to prostszy i~wygodniejszy sposób reprezentowania skomplikowanych operacji na wielu zasobach. 
+
+
+
+\subsection{Java Enterprise Edition}
+Java Enterprise Edition (Java EE, JEE) to platforma stworzona w~celu ułatwienia tworzenia aplikacji typu enterprise \cite{javaEE}. Głównym celem Javy EE jest uproszczenie procesu wytwarzania oprogramowania przez dostarczenie programistom rozbudowanego API zapewniającego m.in. przenośność i~bezpieczeństwo. W platformie JEE znajduje zastosowanie model aplikacji wielowarstwowej. Aplikacja składa się z~komponentów, które mogę być instalowane na różnych maszynach w~zależności od warstwy do której należą. Te warstwy to:
+\begin{itemize}
+	\item warstwa klienta działająca na maszynie klienta, uogólniając jest to klient dostarczający interfejsu użytkownika,
+	\item warstwa sieciowa działająca na serwerze JEE, odpowiada za generowanie dynamicznych stron internetowych, warstwa ta występuje wtedy, gdy klientem może być przeglądarka internetowa,
+	\item warstwa logiki biznesowej działająca na serwerze JEE, odpowiada za wykonywanie logiki aplikacji,
+	\item warstwa danych działająca na serwerze EIS (Enterprise Information
+                System), udostępnia warstwie biznesowej dane, które
+                mogą się znajdować np. w~bazie danych.
+\end{itemize}
+Ze względu na to że warstwy sieciowa i~logiki biznesowej często działają na tym samym serwerze JEE, architektura ta jest nazywana architekturą trójwarstwową.
+Specyfikacja Javy EE definiuje takie komponenty JEE jak:
+\begin{itemize}
+	\item aplikacje klienckie uruchamiane po stronie klienta,
+	\item komponenty Java Servlet, JavaServer Faces (JSF), JavaServer Pages (JSP), działające w~warstwie sieciowej,
+	\item komponenty Enterprise JavaBeans (EJB), działające w~warstwie logiki biznesowej.
+\end{itemize}
+Komponenty Javy EE są tworzone podobnie jak inne programy w~języku Java. Istotną różnicą jest to że są one składane w~aplikacje Javy EE, wdrażane na serwerze Javy EE i~przez niego zarządzane.
+\subsubsection{Kontener Javy Enterprise Edition}
+Kontener Javy EE jest interfejsem pośredniczącym pomiędzy komponentami aplikacji
+Javy EE, a funkcjami specyficznymi dla platformy, na której uruchomiana jest
+ta aplikacja. Dzięki niemu jest ona niezależna od
+szczegółów interfejsu systemu operacyjnego, czy platformy sprzętowej.
+\subsubsection{Enterprise JavaBeans}
+Komponenty EJB są komponentami realizującymi logikę biznesową aplikacji tzn. jej funkcjonalność. Komponenty EJB działają wewnątrz kontenera EJB, dzięki czemu ich twórca może skupić się na implementowaniu rozwiązań dotyczących konkretnej aplikacji. Usługi, takie jak zarządzanie transakcjami czy autoryzacja są realizowane przez kontener. Rodzaje komponentów EJB:
+\begin{itemize}
+	\item sesyjne, zawierające logikę, która może zostać wywołana programistycznie przez klienta
+		\begin{itemize}
+			\item stanowe, zawierające stan sesji pomiędzy klientem a komponentem, dostęp do takiego komponentu ma tylko jeden klient,
+			\item bezstanowe, nie zawierające stanu sesji, dane dotyczące klienta są w~nim przechowywane tylko na czas obsługi żądania,
+			\item singleton, posiada tylko jedną instancję w~aplikacji,
+		\end{itemize}
+	\item sterowane komunikatami, które pozwalają na asynchroniczne przetwarzanie komunikatów.
+\end{itemize}
+\subsubsection{Java Persistance API}
+Java Persistance API to standard Javy dla warstwy danych. Wykorzystuje on
+mapowanie obiektowo\dywiz relacyjne w~celu stworzenia połączenia między modelem
+obiektowym a relacyjną bazą danych. Na model obiektowy składają się klasy encji,
+które reprezentują tabele z~bazy danych. Obiekt klasy encji odpowiada wierszowi
+w tabeli. Encje to zwykłe obiekty POJO (Plain Old Java Object), które spełniają dodatkowo następujące warunki:
+\begin{itemize}
+	\item posiadają adnotacje \lstinline|@Entity (javax.persistance.Entity)|,
+	\item posiadają publiczny lub chroniony konstruktor bezargumentowy,
+	\item nie mogą być zadeklarowane jako \lstinline|final|,
+	\item implementują interfejs \lstinline|Serializable|,
+	\item udostępniają publicznie zmienne trwałości jedynie poprzez metody.
+\end{itemize}
+
+
+JPA może być także wykorzystywane w~aplikacjach Javy SE.
+ 
+\subsubsection{Java API for RESTful Web Services}
+Java API for RESTful Web Services (JAX-RS) to kolejny standard obecny w~Javie EE \cite{rest_Oracle_doc}. Dostarcza on narzędzi ułatwiających tworzenie usług internetowych zgodnych z~architekturą REST. JAX-RS wykorzystuje adnotacje, które oznaczają klasy i~metody które mają być elementem interfejsu REST. Do tych adnotacji należą:
+\begin{itemize}
+	\item @Path oznaczająca pod jaką ścieżką będzie widoczna dana metoda, służy do oznaczania metod oraz klas (właściwa ścieżka powstanie z~połączenia ścieżki do klasy oraz ścieżki metody),
+	\item @Consumes oznaczająca rodzaj danych jakie przyjmuje dana klasa/metoda, wykorzystuje typy MIME,
+	\item @Produces oznaczająca rodzaj danych jakie zwraca dana klasa/metoda, wykorzystuje typy MIME,
+	\item @PathParam służąca do oznaczenia parametru funkcji, oznacza że parametr ten zostanie odczytany ze ścieżki (w ścieżce jest on oznaczony za pomocą nawiasów klamrowych)
+	\item @QueryParam służąca do oznaczenia parametru funkcji, który będzie podany jako parametr zapytania,
+	\item @GET, @POST, @PUT oraz inne odzwierciedlające metody HTTP, służą one do oznaczenia jakie zapytania będą obsługiwane przez daną metodę,
+	\item @Provider służąca do oznaczenia m.in. filtrów, przez które będą przechodziły zapytania.
+\end{itemize}
+
+\subsection{Angular}
+Angular to framework do budowania aplikacji klienckich w HTML i JavaScript lub języka podobnego do TypeScript, który kompiluje do JavaScript. Struktura składa się z kilku bibliotek, niektóre z nich są podstawowe, a niektóre opcjonalne. 
+
+Aplikacje w Angularze składają się z szablonów (\textit{templates}) HTML, komponentów (\textit{components}), które zarządzają tymi szablonami, usług (\textit{services}) zawierających logikę aplikacji oraz modułów (\textit{modules}) opakowujących komponenty i usługi. \cite{angular}
+\begin{enumerate}
+    \item \textbf{Moduły} \\
+    Angular posiada własny system modułów \textit{NgModules}. Każda aplikacja w Angularze ma co najmniej jedną klasę \textit{NgModule}.    
+    \textit{NgModule} to funkcją dekorującą, która pobiera pojedynczy obiekt metadanych, którego właściwości opisują moduł. Najważniejsze właściwości to: 
+    \begin{itemize}
+        \item deklaracje (\textit{declarations}) - klasy widoku (\textit{view classes}) należące do tego modułu. Angular ma trzy rodzaje klas widoku: komponenty, dyrektywy i potoki. 
+        \item eksporty (\textit{exports}) - podzbiór deklaracji, które powinny być widoczne i możliwe do wykorzystania w szablonach komponentów innych modułów.
+        \item importy (\textit{imports}) - inne moduły, których wyeksportowane klasy są wymagane przez szablony komponentów zadeklarowane w tym module.
+       \item dostawcy (\textit{providers}) - twórcy usług, które ten moduł udostępnia do globalnego zbioru usług. Są dostępne we wszystkich częściach aplikacji. 
+       \item bootstrap - główny widok aplikacji, zwany komponentem głównym, który obsługuje wszystkie inne widoki aplikacji.
+   \end{itemize}
+
+    \item \textbf{Komponenty} \\
+    Komponent steruje działaniem widoków - w klasie definiowana jest logika komponentu aplikacji. Klasa komunikuje się z widokiem za pośrednictwem API.
+    Angular tworzy, aktualizuje i niszczy komponenty, w trakcie gdy użytkownik porusza się po aplikacji. 
+    
+    \item \textbf{Szablony} \\
+    Widoki komponentu są definiowane za pomocą szablonów. Szablon jest formą HTML, która mówi Angularowi, jak renderować komponent.
+
+\end{enumerate}
+
+\subsection{MySQL}
+MySQL jest popularnym systemem do zarządzania bazą danych typu open source. Jest on rozwijany i wspierany przez Oracle Corporation.
+Baza danych MySQL jest relacyjną bazą danych, która wykorzystuje język SQL. \cite{mysql}
+\begin{itemize}
+    \item działa na wielu różnych platformach
+    \item zawiera system uprawnień i haseł, który jest bardzo elastyczny i bezpieczny oraz umożliwia weryfikację na podstawie hosta
+    \item posiada wiele typów danych, m.in: INTEGER, FLOAT, DOUBLE, CHAR, VARCHAR, BINARY, VARBINARY, TEXT, BLOB, DATE, TIME, DATETIME, TIMESTAMP, YEAR, SET, ENUM
+    \item całkowicie wspiera instrukcje SELECT, GROUP BY, ORDER BY, COUNT(), AVG(), STD(), SUM(), MAX(), MIN(), GROUP\_CONCAT(), LEFT OUTER JOIN, RIGHT OUTER JOIN,  DELETE, INSERT, REPLACE, UPDATE 
+    \item wspiera aliasy na tabelach i kolumnach
+    \item przykładowe programy klienckie: mysqldump i mysqladmin (uruchamiane z konsoli) oraz MySQL Workbench.
+
+\end{itemize}
