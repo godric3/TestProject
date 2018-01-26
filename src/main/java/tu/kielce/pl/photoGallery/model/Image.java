@@ -19,7 +19,8 @@ import javax.persistence.OneToMany;
 		@NamedQuery(name = "Image.findByTag", query = "SELECT i FROM Image i, TagImage ti WHERE ti.tag = :tag AND ti.image = i"),
 		@NamedQuery(name = "Image.findByUser", query = "SELECT i FROM Image i WHERE i.user = :user"),
 		@NamedQuery(name = "Image.findByCategory", query = "SELECT i FROM Image i WHERE i.category = :category"),
-		@NamedQuery(name = "Image.findAllNames", query = "SELECT concat(i.url,'.',i.extension) FROM Image i") })
+		@NamedQuery(name = "Image.findAllNames", query = "SELECT concat(i.url,'.',i.extension) FROM Image i"),
+		@NamedQuery(name = "Image.findByName", query = "SELECT i FROM Image i WHERE i.url =:url AND i.extension = :extension") })
 public class Image {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
