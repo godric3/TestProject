@@ -1,48 +1,75 @@
 <div class="row">
-  <div class="col-sm-7">
-    <mat-card class="example-card">
-      <mat-card-header></mat-card-header>
-      <mat-card-content>Obrazy</mat-card-content>
+  <div class="col-sm-8">
+    <mat-card *ngFor="let image of imageContener" class="example-card">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Shiba Inu</mat-card-title>
+        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image class="miniImage"[src]='image' alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        <p>
+          The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes
+          very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button>LIKE</button>
+        <button mat-button>SHARE</button>
+      </mat-card-actions>
     </mat-card>
   </div>
-  <div class="col-sm-5">
-    <div class="col-sm-4">
-      <form class="example-form">
-        <mat-form-field>
-          <mat-select [(value)]="selected" (change)="showChange()" placeholder="Wybierz filtr">
-            <mat-option *ngFor="let filtr of filtrs" [value]="filtr.value">
-              {{ filtr.viewValue }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field *ngIf="checkSelected('filtr0')" class="example-full-width">
-          <input *ngIf="checkSelected('filtr0')" matInput name="filtrType1" [(ngModel)]="filtrType" placeholder="Napisz kategorie">
-        </mat-form-field>
-        <mat-form-field *ngIf="checkSelected('filtr1')" class="example-full-width">
-          <input *ngIf="checkSelected('filtr1')" matInput name="filtrType2" [(ngModel)]="filtrType" placeholder="Napisz tagi">
-        </mat-form-field>
-        <mat-form-field *ngIf="checkSelected('filtr2')" class="example-full-width">
-          <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" [(ngModel)]="filtrType" placeholder="Wysokosc">
-        </mat-form-field>
-        <mat-form-field *ngIf="checkSelected('filtr2')" class="example-full-width">
-          <input *ngIf="checkSelected('filtr2')" matInput name="filtrType4" [(ngModel)]="filtrType" placeholder="Szerokosc">
-        </mat-form-field>
+  <div class="col-sm-4">
+    <div class="row">
+      <div class="col-sm-6">
+        <form class="example-form">
+          <mat-form-field>
+            <mat-select [(value)]="selected" (change)="showChange()" placeholder="Wybierz filtr">
+              <mat-option *ngFor="let filtr of filtrs" [value]="filtr.value">
+                {{ filtr.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr0')">
+            <input *ngIf="checkSelected('filtr0')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz kategorie">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr1')">
+            <input *ngIf="checkSelected('filtr1')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz tagi">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr2')">
+            <input *ngIf="checkSelected('filtr2')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Wysokosc">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr2')">
+            <input *ngIf="checkSelected('filtr2')" matInput name="filtrType2" [(ngModel)]="filtrType2" placeholder="Szerokosc">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr3')">
+            <input matInput name="filtrType5" [(ngModel)]="filtrType" placeholder="Rozszerzenie">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr4')">
+            <input matInput name="filtrType6" [(ngModel)]="filtrType" placeholder="Nazwa">
+          </mat-form-field>
 
-        <!--<input *ngIf="checkSelected('filtr1')" matInput name="filtrType2" placeholder="Wpisz tagi">
-        <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Szerokosc">
-        <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Dlugosc">
-        -->
-        <br>
-      </form>
-
-      <button mat-raised-button color="primary">Wyszukaj</button>
+          <!--<input *ngIf="checkSelected('filtr1')" matInput name="filtrType2" placeholder="Wpisz tagi">
+              <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Szerokosc">
+              <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Dlugosc">
+              -->
+          <br>
+        </form>
+        {{this.filtrType}}
+        <p>
+          <button mat-raised-button color="primary" (click)="searchImage()">Wyszukaj</button>
+        </p>
+        <p>
+          <button mat-raised-button color="primary" (click)="getAllImages()">Pobierz wszystkie</button>
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <mat-list class="tagi" *ngIf="checkSelected('filtr1')" role="list">
+          <h3 mat-subheader>Tagi</h3>
+          <mat-list-item role="listitem">tag1</mat-list-item>
+          <mat-list-item role="listitem">tag2</mat-list-item>
+        </mat-list>
+      </div>
     </div>
-    <div class="col-sm-1">
-      <mat-list *ngIf="checkSelected('filtr1')" class="example-full-width" role="list">
-        <h3 mat-subheader>Tagi</h3>
-        <mat-list-item role="listitem">tag1</mat-list-item>
-        <mat-list-item role="listitem">tag2</mat-list-item>
-      </mat-list>
-    </div>
-
   </div>
+</div>
