@@ -25,6 +25,11 @@ export class ImageService {
     return this.httpClient.get('http://localhost:8080/TestProject/api/image/'+id,{headers:headers,responseType:'blob'})
   }
 
+  getImageInfo(id:string):Observable<any>{
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/details/'+id,{headers:headers})
+  }
+
   getAllImages(){
     //let headers = new Headers({ 'Content_Type': 'application/json' });
     //headers.append('Authorization',this.userService.getToken())

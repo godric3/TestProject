@@ -5,17 +5,24 @@ import { SafeUrl } from '@angular/platform-browser/src/security/dom_sanitization
 import { MatDialog } from '@angular/material/dialog';
 import { FullSizeImageDialogComponent } from './full-size-image-dialog/full-size-image-dialog.component';
 
+export interface ImageData {
+  id: string
+  safeUrl: SafeUrl
+
+}
+
 @Component({
   selector: 'app-get-photo-page',
   templateUrl: './get-photo-page.component.html',
   styleUrls: ['./get-photo-page.component.css']
 })
+
 export class GetPhotoPageComponent implements OnInit {
   selected: string
   filtrType: any
   filtrType2: any
   tags: string[]
-  imageContener: SafeUrl[];
+  imageContener: ImageData[];
   filtrs = [
     { value: 'filtr0', viewValue: 'Kategoria' },
     { value: 'filtr1', viewValue: 'Tagi' },
@@ -54,7 +61,8 @@ export class GetPhotoPageComponent implements OnInit {
     this.imageContener = []
     this.imageService.getImage(this.filtrType).subscribe(res => {
       const imageUrl = URL.createObjectURL(res);
-      this.imageContener.push(this.sanitizer.bypassSecurityTrustUrl(imageUrl))
+      let trustURl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+      this.imageContener.push({ id: this.filtrType, safeUrl: trustURl })
     })
   }
 
@@ -72,21 +80,22 @@ export class GetPhotoPageComponent implements OnInit {
       this.imageContener = []
       let array: any
       array = res
-      console.log(array)
       array.forEach(element => {
         this.imageService.getImage(element).subscribe(res => {
-          console.log(element)
           const imageUrl = URL.createObjectURL(res);
-          this.imageContener.push(this.sanitizer.bypassSecurityTrustUrl(imageUrl))
+          let trustURl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+          this.imageContener.push({ id: (element as string), safeUrl: trustURl })
         })
 
       })
     })
   }
 
-  openDialog(imageFile): void {
+  openDialog(imageData): void {
     let dialogRef = this.dialog.open(FullSizeImageDialogComponent, {
-      data: { image: imageFile }
+      height: '80%',
+      width: '80%',
+      data: { image: imageData }
     });
   }
 }
