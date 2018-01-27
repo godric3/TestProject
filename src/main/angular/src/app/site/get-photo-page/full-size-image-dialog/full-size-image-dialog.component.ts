@@ -10,20 +10,23 @@ import { ImageService } from '../../../services/image.service';
 export class FullSizeImageDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<FullSizeImageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private imageService:ImageService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, private imageService: ImageService) { }
   image;
   dataImage;
   imageId;
+  tagsString: string
 
   ngOnInit() {
     this.image = this.data.image.safeUrl
-    this.imageId = this.data.image.id 
-    console.log(this.data.image.id)
-    this.imageService.getImageInfo(this.data.image.id).subscribe(res =>{
-      console.log(res)
-      this.dataImage = res 
+    this.imageId = this.data.image.id
+    this.imageService.getImageInfo(this.data.image.id).subscribe(res => {
+      this.dataImage = res
+      this.tagsString = ''
+      this.dataImage.tags.forEach(tag => {
+        this.tagsString += tag + ' '
+      });
+
     })
-    
   }
 
 }
