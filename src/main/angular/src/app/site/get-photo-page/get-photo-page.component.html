@@ -19,7 +19,7 @@
             <input *ngIf="checkSelected('filtr0')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz kategorie">
           </mat-form-field>
           <mat-form-field *ngIf="checkSelected('filtr1')">
-            <input *ngIf="checkSelected('filtr1')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz tagi">
+            <input *ngIf="checkSelected('filtr1')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz tag">
           </mat-form-field>
           <mat-form-field *ngIf="checkSelected('filtr2')">
             <input *ngIf="checkSelected('filtr2')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Min rozmiar">
@@ -43,6 +43,9 @@
               -->
           <br>
         </form>
+        <p *ngIf="checkSelected('filtr1')">
+          <button mat-raised-button color="primary" (click)="addTagToTagsList()">Dodaj do szukanych tagów</button>
+        </p>
         <p>
           <button mat-raised-button color="primary" (click)="searchImage()">Wyszukaj</button>
         </p>
@@ -54,8 +57,7 @@
       <div class="col-sm-6">
         <mat-list class="tagi" *ngIf="checkSelected('filtr1')" role="list">
           <h3 mat-subheader>Tagi</h3>
-          <mat-list-item role="listitem">tag1</mat-list-item>
-          <mat-list-item role="listitem">tag2</mat-list-item>
+          <mat-list-item role="listitem" *ngFor="let tag of tags">{{tag}}</mat-list-item>
         </mat-list>
       </div>
     </div>

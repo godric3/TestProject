@@ -45,7 +45,7 @@ export class ImageService {
     return this.httpClient.get('http://localhost:8080/TestProject/api/image/category/'+category,{headers:headers})
   }
 
-  getImagesByUserId(userId:string){
+  getImagesByUserName(userId:string){
     let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
     return this.httpClient.get('http://localhost:8080/TestProject/api/image/user/'+userId,{headers:headers})
   }
@@ -58,5 +58,17 @@ export class ImageService {
   getImagesByTag(tag:string){
     let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
     return this.httpClient.get('http://localhost:8080/TestProject/api/image/tag/'+tag,{headers:headers})
+  }
+
+  getImagesByTags(tags:string[]){
+    console.log(tags);
+    let tagsString = '' 
+    tags.forEach(tag => {
+      tagsString += '/'+tag
+      
+    });
+    console.log(tagsString);
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/tags'+tagsString,{headers:headers})
   }
 }

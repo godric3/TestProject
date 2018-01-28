@@ -36,6 +36,7 @@ export class GetPhotoPageComponent implements OnInit {
 
   ngOnInit() {
     this.imageContener = []
+    this.tags = []
   }
 
   addTagToTagsList() {
@@ -68,7 +69,12 @@ export class GetPhotoPageComponent implements OnInit {
         })
         break;
       case 'filtr1':
-
+        if (this.tags.length > 0) {
+          this.imageService.getImagesByTags(this.tags).subscribe(image => {
+            this.addFewImagesToContainer(image);
+            this.tags = []
+          })
+        }
         break;
       case 'filtr2':
         this.imageService.getImagesBySize(this.filtrType, this.filtrType2).subscribe(image => {
@@ -88,9 +94,9 @@ export class GetPhotoPageComponent implements OnInit {
         })
         break;
       case 'filtr5':
-      this.imageService.getImagesByUserId(this.filtrType).subscribe(image => {
-        this.addImageToContainer(image);
-      })
+        this.imageService.getImagesByUserName(this.filtrType).subscribe(image => {
+          this.addImageToContainer(image);
+        })
 
         break;
 
