@@ -45,8 +45,8 @@ public class ImageManager {
 		return names;
 	}
 
-	public Image getImage(String name) throws EntityNotFound{
-		return imageDAO.getByName(name.split("\\.")[0],name.split("\\.")[1]);
+	public Image getImage(String name) throws EntityNotFound {
+		return imageDAO.getByName(name.split("\\.")[0], name.split("\\.")[1]);
 	}
 
 	public void uploadImage(ImageDTO imageDTO) throws IOException {
@@ -70,6 +70,14 @@ public class ImageManager {
 		image.setSize(savedImageDTO.getSize());
 		image.setHeight(savedImageDTO.getHeight());
 		image.setWidth(savedImageDTO.getWidth());
+		User user = null;
+		try {
+			user = userDAO.getByUsername(imageDTO.getUser());
+		} catch (EntityNotFound e) {
+			System.out.println("SHOULD NOT HAPPEN");
+			e.printStackTrace();
+		}
+		image.setUserId(user);
 	}
 
 	/* source: https://javatutorial.net/ */
@@ -123,6 +131,16 @@ public class ImageManager {
 			return new ArrayList<>();
 		}
 		List<String> names = imageDAO.getByTag(tag);
+		return names;
+	}
+
+	public List<String> getImagesByMultipleTags(List<String> tagNames) {
+		List<Tag> tags;
+		tags = tagDAO.getByNames(tagNames);
+		if(tags.isEmpty()){
+			return new ArrayList<>();
+		}
+		List<String> names = imageDAO.getByMultipleTags(tags);
 		return names;
 	}
 

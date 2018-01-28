@@ -61,6 +61,13 @@ public class ImageDAO extends GenericDAO<Image> {
 		return imageNames;
 	}
 
+	public List<String> getByMultipleTags(List<Tag> tags) {
+		Query q = entityManager.createNamedQuery("Image.findByMultipleTags", String.class);
+		q.setParameter("tags", tags);
+		List<String> imageNames = q.getResultList();
+		return imageNames;
+	}
+
 	public List<String> getByUser(User user) {
 		Query q = entityManager.createNamedQuery("Image.findByUser", String.class);
 		q.setParameter("user", user);

@@ -9,7 +9,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t") })
+@NamedQueries({ @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t"),
+		@NamedQuery(name = "Tag.findByMultipleNames", query = "SELECT t FROM Tag t WHERE t.name IN :names"),
+})
 public class Tag {
 	@Id
 	private String name;

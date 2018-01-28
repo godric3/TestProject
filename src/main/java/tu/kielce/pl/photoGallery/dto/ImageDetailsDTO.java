@@ -12,6 +12,7 @@ public class ImageDetailsDTO {
 	private List<String> tags;
 	private String filename;
 	private String extension;
+	private String user;
 	private int size;
 	private int width;
 	private int height;
@@ -23,6 +24,7 @@ public class ImageDetailsDTO {
 		size=image.getSize();
 		height=image.getHeight();
 		width=image.getWidth();
+		user=image.getUser().getUsername();
 		tags = new ArrayList<>();
 		for(TagImage t:image.getTagImages()){
 			tags.add(t.getTag().getName());
