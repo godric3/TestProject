@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getUserName() {
-    console.log('get')
     return this.userService.getLoggedUserName()
   }
 }

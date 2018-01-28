@@ -1,14 +1,59 @@
 <div class="row">
   <div class="col-sm-8">
-    <mat-card class="example-card">
-  <mat-card-header></mat-card-header>
-  <mat-card-content>Obrazy</mat-card-content>
-    </mat-card>
+    <mat-card *ngFor="let image of imageContener" class="example-card">
+    <img mat-card-image class="miniImage" [src]='image.safeUrl' (click)="openDialog(image)" alt="Photo of a Shiba Inu">
+    </mat-card> 
   </div>
   <div class="col-sm-4">
-    <mat-card class="example-card">
-      <mat-card-header></mat-card-header>
-      <mat-card-content>Filtry</mat-card-content>
-        </mat-card>
+    <div class="row">
+      <div class="col-sm-6">
+        <form class="example-form">
+          <mat-form-field>
+            <mat-select [(value)]="selected" (change)="showChange()" placeholder="Wybierz filtr">
+              <mat-option *ngFor="let filtr of filtrs" [value]="filtr.value">
+                {{ filtr.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr0')">
+            <input *ngIf="checkSelected('filtr0')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz kategorie">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr1')">
+            <input *ngIf="checkSelected('filtr1')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Napisz tagi">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr2')">
+            <input *ngIf="checkSelected('filtr2')" matInput name="filtrType" [(ngModel)]="filtrType" placeholder="Wysokosc">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr2')">
+            <input *ngIf="checkSelected('filtr2')" matInput name="filtrType2" [(ngModel)]="filtrType2" placeholder="Szerokosc">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr3')">
+            <input matInput name="filtrType5" [(ngModel)]="filtrType" placeholder="Rozszerzenie">
+          </mat-form-field>
+          <mat-form-field *ngIf="checkSelected('filtr4')">
+            <input matInput name="filtrType6" [(ngModel)]="filtrType" placeholder="Nazwa">
+          </mat-form-field>
+
+          <!--<input *ngIf="checkSelected('filtr1')" matInput name="filtrType2" placeholder="Wpisz tagi">
+              <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Szerokosc">
+              <input *ngIf="checkSelected('filtr2')" matInput name="filtrType3" placeholder="Dlugosc">
+              -->
+          <br>
+        </form>
+        <p>
+          <button mat-raised-button color="primary" (click)="searchImage()">Wyszukaj</button>
+        </p>
+        <p>
+          <button mat-raised-button color="primary" (click)="getAllImages()">Pobierz wszystkie</button>
+        </p>
+      </div>
+      <div class="col-sm-6">
+        <mat-list class="tagi" *ngIf="checkSelected('filtr1')" role="list">
+          <h3 mat-subheader>Tagi</h3>
+          <mat-list-item role="listitem">tag1</mat-list-item>
+          <mat-list-item role="listitem">tag2</mat-list-item>
+        </mat-list>
+      </div>
+    </div>
   </div>
-</div> 
+</div>
