@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -40,6 +41,7 @@ public class ImageRestEndpoint {
 
 	@Path("/")
 	@GET
+	@Secured
 	public Response getAllImageNames() {
 		List<String> names = imageManager.getAllImageNames();
 		return Response.ok(names).build();
@@ -62,6 +64,7 @@ public class ImageRestEndpoint {
 
 	@Path("/details/{id}")
 	@GET
+	@Secured
 	public Response getImageDetails(@PathParam("id") String id) {
 		Image image;
 		try {
@@ -122,6 +125,7 @@ public class ImageRestEndpoint {
 
 	@Path("/size/{sizeMin}/{sizeMax}")
 	@GET
+	@Secured
 	public Response searchBySize(@PathParam("sizeMin") int minSize, @PathParam("sizeMax") int maxSize) {
 		List<String> names = imageManager.getImagesBySize(minSize, maxSize);
 		return Response.ok(names).build();
@@ -129,6 +133,7 @@ public class ImageRestEndpoint {
 
 	@Path("/user/{userID}")
 	@GET
+	@Secured
 	public Response searchByUser(@PathParam("userID") int userID) {
 		List<String> names = imageManager.getImagesByUserId(userID);
 		return Response.ok(names).build();
@@ -136,6 +141,7 @@ public class ImageRestEndpoint {
 
 	@Path("/extension/{extension}")
 	@GET
+	@Secured
 	public Response searchByExtension(@PathParam("extension") String extension) {
 		List<String> names = imageManager.getImagesByExtension(extension);
 		return Response.ok(names).build();
@@ -143,13 +149,30 @@ public class ImageRestEndpoint {
 
 	@Path("/tag/{tag}")
 	@GET
+	@Secured
 	public Response searchByTag(@PathParam("tag") String tag) {
 		List<String> names = imageManager.getImagesByTag(tag);
 		return Response.ok(names).build();
 	}
 
+	@Path("/tags/{tags: .*}")
+	@GET
+	@Secured
+	public Response searchByMultipleTags(@PathParam("tags") List<PathSegment> tags) {
+		List<String> tagNames = new ArrayList<>();
+		for (PathSegment seg : tags) {
+			tagNames.add(seg.getPath());
+		}
+		if(tagNames.size()==0){
+			return Response.ok(tagNames).build();
+		}
+		List<String> names = imageManager.getImagesByMultipleTags(tagNames);
+		return Response.ok(names).build();
+	}
+
 	@Path("/category/{category}")
 	@GET
+	@Secured
 	public Response searchByCategory(@PathParam("category") String category) {
 		List<String> names = imageManager.getImagesByCategory(category);
 		return Response.ok(names).build();

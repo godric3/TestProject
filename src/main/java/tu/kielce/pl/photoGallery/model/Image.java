@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 		@NamedQuery(name = "Image.findBySize", query = "SELECT concat(i.url,'.',i.extension) FROM Image i WHERE i.size >= :minSize AND i.size <= :maxSize"),
 		@NamedQuery(name = "Image.findByExtension", query = "SELECT concat(i.url,'.',i.extension) FROM Image i WHERE i.extension = :extension"),
 		@NamedQuery(name = "Image.findByTag", query = "SELECT concat(i.url,'.',i.extension) FROM Image i, TagImage ti WHERE ti.tag = :tag AND ti.image = i"),
+		@NamedQuery(name = "Image.findByMultipleTags", query = "SELECT DISTINCT concat(i.url,'.',i.extension) FROM Image i, TagImage ti WHERE ti.tag IN :tags AND ti.image = i"),
 		@NamedQuery(name = "Image.findByUser", query = "SELECT concat(i.url,'.',i.extension) FROM Image i WHERE i.user = :user"),
 		@NamedQuery(name = "Image.findByCategory", query = "SELECT concat(i.url,'.',i.extension) FROM Image i WHERE i.category = :category"),
 		@NamedQuery(name = "Image.findAllNames", query = "SELECT concat(i.url,'.',i.extension) FROM Image i"),
