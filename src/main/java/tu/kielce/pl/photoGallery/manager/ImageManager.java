@@ -112,10 +112,10 @@ public class ImageManager {
 		return names;
 	}
 
-	public List<String> getImagesByUserId(int userID) {
+	public List<String> getImagesByUsername(String userName) {
 		User user;
 		try {
-			user = userDAO.find(userID);
+			user = userDAO.getByUsername(userName);
 		} catch (EntityNotFound e) {
 			return new ArrayList<>();
 		}

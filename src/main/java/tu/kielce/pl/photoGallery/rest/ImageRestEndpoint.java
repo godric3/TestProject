@@ -138,8 +138,8 @@ public class ImageRestEndpoint {
 	@Path("/user/{userID}")
 	@GET
 	@Secured
-	public Response searchByUser(@PathParam("userID") int userID) {
-		List<String> names = imageManager.getImagesByUserId(userID);
+	public Response searchByUser(@PathParam("userID") String userID) {
+		List<String> names = imageManager.getImagesByUsername(userID);
 		return Response.ok(names).build();
 	}
 
