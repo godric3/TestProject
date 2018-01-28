@@ -95,7 +95,7 @@ export class GetPhotoPageComponent implements OnInit {
         break;
       case 'filtr5':
         this.imageService.getImagesByUserName(this.filtrType).subscribe(image => {
-          this.addImageToContainer(image);
+          this.addFewImagesToContainer(image);
         })
 
         break;
