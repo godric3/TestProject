@@ -18,6 +18,7 @@
  
 .miniImage{
   max-height: 300px !important;
+  max-width: 250px !important;
 }
 .row{
   margin-right: 0px !important;
