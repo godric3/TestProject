@@ -81,139 +81,55 @@ Na listingu \ref{lst:ImageRestEndpoint} został przedstawiony fragment klasy bę
 \lstinputlisting[caption={Fragment klasy ImageRestEndpoint}, label=lst:ImageRestEndpoint]
 {listings/ImageRestEndpoint.java}
 
-\subsection{\textcolor{red}{Klient}}
-Aplikacja kliencka została wykonana...
-
-
-\subsubsection{Połączenie z~serwerem}
-Komunikacja z~serwerem w~całości realizowana jest poprzez protokół HTTP. 
-
-Całość
-komunikacji zawarta została w~klasie RestClient. Posiada ona metodę
-odpowiedzialną za tworzenie połączenia (listing \ref{lst:getConnection}) oraz
-metody realizujące konkretne zadania, takie jak utworzenie wycieczki, czy
-aktualizację informacji o~użytkowniku na serwerze. Przebieg realizacji pojedynczego zadania po stronie klienta przedstawiono na rysunku \ref{fig:clientRequest}. Większość metod może zakończyć się na 3 sposoby:
+\subsection {Klient}
+Aplikacja kliencka została wykonana w framework'u Angular 5, co wiązało się z podzieleniem jej na kilka komponentów, które pełniły odpowiednią role w systemie. Utworzone więc następujące komponenty:
 \begin{itemize}
-	\item operacja wykonana pomyślnie, zwrócona oczekiwana wartość,
-	\item operacja się nie powiodła, zwrócona zostaje wartość \texttt{null} (w przypadku gdy wystąpi nieoczekiwany błąd po stronie serwera. Dzięki temu, gdy niepowodzenie nie wpływa na działanie aplikacji, użytkownik nie będzie o~tym poinformowany) lub komunikat błędu,
-	\item nastąpił błąd połączenia, zgłoszony zostaje wyjątek.
+	\item welcome-page-component (strona główna) - odpowiedzialny za wyświetlanie strony głownej, 
+	\item login-page-component (logowanie) - odpowiada za logowanie użytkownika,
+	\item register-page (rejestracja) - służy do rejestracji 
+	\item add-image-page (dodawanie nowego obrazu) - za pomocą tego komponentu zalogowany użytkownik może dodać nowy obraz do systemu,
+	\item get-photo-page (wyszukiwanie obrazów) - udostępnia wyszukiwarkę, dzięki której użytkownik może za pomocą odpowiednich filtrów wyświetlić odpowiednie zdjęcie.a
+	
 \end{itemize}
 
-Do konwersji obiektów Javy na format JSON i~odwrotnie użyto biblioteki Jackson.
-Udostępnia ona klasę ObjectMapper, która posiada metody umożliwiające taką konwersje. Przykład użycia przedstawiono na listingu \ref{lst:objectMapper}.
-
-\lstinputlisting[caption={Przykład użycia obiektu ObjectMapper}, label=lst:objectMapper]
-{listings/Image.java}
-
-\lstinputlisting[caption={Metoda przygotowująca nagłówek zapytania HTTP}, label=lst:getConnection]
-{listings/Image.java}
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width = 15cm]{images/bazaDanych}
-	\caption{Schemat generowania zapytania po stronie klienta
-		\newline Źródło: opracowanie własne}
-	\label{fig:clientRequest}
-\end{figure}
-
-System Android zabrania wykonywania operacji korzystających z~sieci w~wątku
-głównym aplikacji. W~związku z~tym metody klasy RestClient są wywoływane z~klas
-dziedziczących po klasie AsyncTask. Dzięki temu komunikacja z~serwerem odbywa
-się w~tle, nie blokując interfejsu graficznego. Dodatkowo została utworzona
-klasa WaitingAsyncTask dziedzicząca po klasie AsyncTask. Zawiera
-ona kod odpowiedzialny za wyświetlanie ikony ładowania informującą użytkownika, że właśnie przeprowadzana jest jakaś operacja. Klasa ta wykorzystywana jest, gdy aplikacja kliencka oczekuje na odpowiedź serwera. Efekt widoczny dla użytkownika pokazano na rysunku \ref{fig:waitingTask}.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width = 6cm]{images/bazaDanych}
-	\caption{Ekranu oczekiwania na wynik operacji wykonującej się w~tle	\newline Źródło: opracowanie własne}
-	\label{fig:waitingTask}
-\end{figure}
-
-\subsubsection{Śledzenie pozycji}
-Aby móc śledzić aktualną pozycję użytkownika utworzono klasę
-GPSListener implementującą interfejs LocationListener. Jest ona rejestrowana
-jako obserwator zdarzeń dotyczących systemu GPS. Informacje o~postępach
-użytkownika są przechowywane w~klasie UserTripManager (której ważniejsze metody
-wypisano na listingu \ref{lst:userTripManager}). Zawiera ona metody
-odpowiedzialne za aktualizowanie pozycji użytkownika, obliczanie przebytej
-drogi, prędkości średniej oraz chwilowej. W~chwili otrzymania z~systemu GPS
-nowej lokalizacji wywoływana jest metoda onLocationChange() (przedstawiona na
-listingu \ref{lst:onLocationChange}). Wywoływane są w~niej metody odpowiedzialne
-za zaktualizowanie pozycji użytkownika na mapie oraz aktualizacje postępów.
-Dodatkowo sprawdzany jest czas od wysłania ostatniej aktualizacji do serwera.
-Jeśli upłynął ustalony okres, to aktualizacja zostanie
- wysłana.
-
-\lstinputlisting[caption={Metoda onLocationChange klasy GPSListener}, label=lst:onLocationChange]
-{listings/Image.java}
-
-\lstinputlisting[caption={Nagłówki ważniejszych metod klasy UserTripManager}, label=lst:userTripManager]
-{listings/Image.java}
-
-Metoda updateLocation() klasy UserTripManager odświeża aktualnie przechowywaną pozycje oraz przebyty dystans. Przewidywany pozostały czas zwracany jest w~minutach, prędkości (chwilowa i~średnia) w~km/h, a dystans w~kilometrach. Zarówno przebyty dystans, jak i~prędkości obliczane są na podstawie pozycji uzyskanych z~systemu GPS.
-
-
 \subsubsection{Interfejs graficzny}
-Interfejs graficzny stworzono wykorzystując powiązane ze sobą aktywności. Po
-uruchomieniu aplikacji, jeśli użytkownik nie był wcześniej zalogowany, ukaże się
-ekran logowania (rysunek \ref{fig:login}). Po zalogowaniu użytkownik uzyska
-dostęp do menu głównego (rysunek \ref{fig:menu}). Pod przyciskiem "Opcje"
-dostępne są ustawienia dotyczące rodzaju map oraz częstotliwości komunikowania
-się z~serwerem (rysunek \ref{fig:settings}). Ekrany tworzenia wycieczki,
-dołączania do niej oraz podglądu trwającej aktualnie wycieczki wykorzystują
-zakładki w~celu podziału widoku. Ekran tworzenia wycieczki podzielono na mapę na
-której można dodać do niej punkty kontrolne (rysunek \ref{fig:create:1}) oraz
-szczegóły, gdzie należy ustalić m.in. nazwę i~opis wycieczki (rysunek
-\ref{fig:create:2}). Dołączając do wycieczki trzeba wybrać ją z~listy
-(rysunek \ref{fig:list}), a następnie można podejrzeć jej szczegóły oraz
-przebieg na mapie. Po dołączeniu do wycieczki, pod opcją "Aktualna wycieczka" będzie dostępna podobna mapa, na której dodatkowo zaznaczeni są uczestnicy
-wycieczki. Ponadto, znajdują się tam także zakładki z~wynikami użytkownika, listą innych
-uczestników wraz z~ich prędkością (rysunek \ref{fig:tripParticipants}) oraz
-z~rozmowami z~innymi uczestnikami. Po wybraniu uczestnika na liście można spróbować wysłać do niego wiadomość (rysunek \ref{fig:chat}). 
-Zakładki można zmienić za pomocą gestów przesunięcia (w~prawo lub lewo). W tym celu stworzono abstrakcyjną klasę SlideTabActivity. Zawiera ona kod inicjujący detektor gestów oraz metody odpowiedzialne za reakcje na wybrane gesty. Rozszerzając taką klasę należy przypisać odpowiednie wartości do pól tabNumber i~currentTab. Dodatkowo należy też w~klasach odpowiadających za same zakładki w~metodzie onResume() ustawić pole currentTab. Jest to wymagane gdy do zmiany ekranów wykorzystuje się zarówno gesty, jak i~zakładki.
-
-
-\lstinputlisting[caption={Klasa SwipeTabActivity}, label=lst:swipe]
-{listings/Image.java}
-
-\begin{figure}[ht]	
-	\begin{tabular}{ccc}
-		\subfloat[Ekran logowania \label{fig:login}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}} &
-		\subfloat[Ekran menu \label{fig:menu}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}} &
-		\subfloat[Ekran ustawień \label{fig:settings}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}}
-	\end{tabular}
-	\caption{Interfejs graficzny
+Interfejs graficzny stworzono wykorzystując biblitekę Angular Material . Po
+uruchomieniu aplikacji, ukaże się strona główna serwisu (rysunek \ref{fig:welcome}). Za pomocą przycisków, które są umieszczone po prawej stronie headera użytkownik może się zalogwać (rysunek \ref{fig:login}) lub zarejestrować (rysunek \ref{fig:register}). Po zalogowaniu otwierają się możliwości przejścia do panelu dodawania nowego zdjęcia (rysunek \ref{fig:newPhoto}) oraz przeglądania już istniejących (rysunek \ref{fig:searchPhoto}).
+\begin{figure}
+	\centering
+	\includegraphics[width = 15cm]{images/e_g.png}
+	\caption{Strona główna serwisu
 		\newline Źródło: opracowanie własne}
+	\label{fig:welcome}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width = 15cm]{images/logowanie.png}
+	\caption{Logowanie
+		\newline Źródło: opracowanie własne}
+	\label{fig:login}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width = 10cm]{images/rejestracja.png}
+	\caption{Rejestracja
+		\newline Źródło: opracowanie własne}
+	\label{fig:register}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width = 10cm]{images/nowe_zdjecie.png}
+	\caption{Dodawanie nowego zdjęcia
+		\newline Źródło: opracowanie własne}
+	\label{fig:newPhoto}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width = 15cm]{images/search.png}
+	\caption{Wyszukiwanie zdjęć 
+		\newline Źródło: opracowanie własne}
+	\label{fig:searchPhoto}
 \end{figure}
 
 
 
-\begin{figure}[ht]	
-	\begin{tabular}{ccc}
-		\subfloat[Tworzenie wycieczki - mapa\label{fig:create:1}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}} &
-		\subfloat[Tworzenie wycieczki - szczegóły\label{fig:create:2}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}} &
-		\subfloat[Dołączanie do wycieczki - lista\label{fig:list}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}}
-	\end{tabular}
-	\caption{Ekrany tworzenia oraz dołączania do wycieczki
-		\newline Źródło: opracowanie własne}
-\end{figure}
-
-\begin{figure}[ht]	
-	\begin{tabular}{ccc}
-		\subfloat[Nasze wyniki\label{fig:tripDetails}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}} &
-		\subfloat[Uczestnicy wycieczki\label{fig:tripParticipants}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}} &
-		\subfloat[Ekran rozmowy z~innym uczestnikiem \label{fig:chat}]
-		{\includegraphics[width = 4.5cm]{images/bazaDanych}}
-	\end{tabular}
-	\caption{Interfejs graficzny
-		\newline Źródło: opracowanie własne}
-\end{figure}
