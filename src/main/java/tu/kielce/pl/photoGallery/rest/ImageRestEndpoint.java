@@ -15,6 +15,8 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
@@ -79,9 +81,11 @@ public class ImageRestEndpoint {
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@POST
 	@Secured
-	public Response uploadImage(MultipartFormDataInput input) {
+	public Response uploadImage(MultipartFormDataInput input, @Context HttpHeaders headers) {
 		System.out.println("It's alive!");
 		ImageDTO imageDTO = new ImageDTO();
+		String userName = headers.getRequestHeader("Authorization").get(0).split("\\.")[0];
+		imageDTO.setUser(userName);
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> categoryInputParts = uploadForm.get("category");
 		List<InputPart> tagsInputParts = uploadForm.get("tags");

@@ -70,6 +70,14 @@ public class ImageManager {
 		image.setSize(savedImageDTO.getSize());
 		image.setHeight(savedImageDTO.getHeight());
 		image.setWidth(savedImageDTO.getWidth());
+		User user = null;
+		try {
+			user = userDAO.getByUsername(imageDTO.getUser());
+		} catch (EntityNotFound e) {
+			System.out.println("SHOULD NOT HAPPEN");
+			e.printStackTrace();
+		}
+		image.setUserId(user);
 	}
 
 	/* source: https://javatutorial.net/ */
