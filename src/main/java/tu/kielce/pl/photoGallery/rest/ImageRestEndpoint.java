@@ -84,7 +84,7 @@ public class ImageRestEndpoint {
 	public Response uploadImage(MultipartFormDataInput input, @Context HttpHeaders headers) {
 		System.out.println("It's alive!");
 		ImageDTO imageDTO = new ImageDTO();
-		String userName = headers.getRequestHeader("Authorization").get(0).split("\\.")[0];
+		String userName = headers.getRequestHeader("Authorization").get(0).split("\\|")[0];
 		imageDTO.setUser(userName);
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> categoryInputParts = uploadForm.get("category");

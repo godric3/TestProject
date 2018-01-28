@@ -73,4 +73,10 @@ public class ImageDetailsDTO {
 	public void setHeight(int height) {
 		this.height = height;
 	}
+	public String getUser() {
+		return user;
+	}
+	public void setUser(String user) {
+		this.user = user;
+	}
 }
