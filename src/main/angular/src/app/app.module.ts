@@ -29,6 +29,8 @@ import { FormsModule } from '@angular/forms';
 import {MatListModule} from '@angular/material/list';
 import { ImageService } from './services/image.service';
 import {MatSelectModule} from '@angular/material/select';
+import { FullSizeImageDialogComponent } from './site/get-photo-page/full-size-image-dialog/full-size-image-dialog.component';
+import { AddingPhotoResultDialogComponent } from './site/add-photo-page/adding-photo-result-dialog/adding-photo-result-dialog.component';
 
 
 
@@ -57,7 +59,9 @@ const appRoutes: Routes = [
     AddPhotoPageComponent,
     GetPhotoPageComponent,
     LoginPageComponent,
-    RegisterPageComponent
+    RegisterPageComponent,
+    FullSizeImageDialogComponent,
+    AddingPhotoResultDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +78,8 @@ const appRoutes: Routes = [
     MatDialogModule,
     UICarouselModule,
     MatListModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule
 
   ],
   providers: [
@@ -87,6 +92,8 @@ const appRoutes: Routes = [
     ImageService
   ],
   entryComponents: [
+    FullSizeImageDialogComponent,
+    AddingPhotoResultDialogComponent
   ],
   bootstrap: [AppComponent]
 })

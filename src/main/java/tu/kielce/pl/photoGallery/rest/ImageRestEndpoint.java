@@ -15,7 +15,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -24,8 +27,11 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import org.json.JSONArray;
 
 import tu.kielce.pl.photoGallery.dto.ImageDTO;
+import tu.kielce.pl.photoGallery.dto.ImageDetailsDTO;
+import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.filter.Secured;
 import tu.kielce.pl.photoGallery.manager.ImageManager;
+import tu.kielce.pl.photoGallery.model.Image;
 
 @Path("image")
 @Consumes({ "application/json" })
@@ -37,6 +43,7 @@ public class ImageRestEndpoint {
 
 	@Path("/")
 	@GET
+	@Secured
 	public Response getAllImageNames() {
 		List<String> names = imageManager.getAllImageNames();
 		return Response.ok(names).build();
@@ -59,17 +66,26 @@ public class ImageRestEndpoint {
 
 	@Path("/details/{id}")
 	@GET
-	public Response getImageDetails(@PathParam("id") int id) {
-		return Response.ok().build();
+	@Secured
+	public Response getImageDetails(@PathParam("id") String id) {
+		Image image;
+		try {
+			image = imageManager.getImage(id);
+		} catch (EntityNotFound e) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		return Response.ok(new ImageDetailsDTO(image)).build();
 	}
 
 	@Path("/")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@POST
 	@Secured
-	public Response uploadImage(MultipartFormDataInput input) {
+	public Response uploadImage(MultipartFormDataInput input, @Context HttpHeaders headers) {
 		System.out.println("It's alive!");
 		ImageDTO imageDTO = new ImageDTO();
+		String userName = headers.getRequestHeader("Authorization").get(0).split("\\.")[0];
+		imageDTO.setUser(userName);
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> categoryInputParts = uploadForm.get("category");
 		List<InputPart> tagsInputParts = uploadForm.get("tags");
@@ -111,33 +127,58 @@ public class ImageRestEndpoint {
 		return Response.ok().build();
 	}
 
-	@Path("/size/{size}")
+	@Path("/size/{sizeMin}/{sizeMax}")
 	@GET
-	public Response searchBySize(@PathParam("size") int size) {
-		return Response.ok().build();
+	@Secured
+	public Response searchBySize(@PathParam("sizeMin") int minSize, @PathParam("sizeMax") int maxSize) {
+		List<String> names = imageManager.getImagesBySize(minSize, maxSize);
+		return Response.ok(names).build();
 	}
 
 	@Path("/user/{userID}")
 	@GET
+	@Secured
 	public Response searchByUser(@PathParam("userID") int userID) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByUserId(userID);
+		return Response.ok(names).build();
 	}
 
 	@Path("/extension/{extension}")
 	@GET
+	@Secured
 	public Response searchByExtension(@PathParam("extension") String extension) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByExtension(extension);
+		return Response.ok(names).build();
 	}
 
 	@Path("/tag/{tag}")
 	@GET
+	@Secured
 	public Response searchByTag(@PathParam("tag") String tag) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByTag(tag);
+		return Response.ok(names).build();
+	}
+
+	@Path("/tags/{tags: .*}")
+	@GET
+	@Secured
+	public Response searchByMultipleTags(@PathParam("tags") List<PathSegment> tags) {
+		List<String> tagNames = new ArrayList<>();
+		for (PathSegment seg : tags) {
+			tagNames.add(seg.getPath());
+		}
+		if(tagNames.size()==0){
+			return Response.ok(tagNames).build();
+		}
+		List<String> names = imageManager.getImagesByMultipleTags(tagNames);
+		return Response.ok(names).build();
 	}
 
 	@Path("/category/{category}")
 	@GET
+	@Secured
 	public Response searchByCategory(@PathParam("category") String category) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByCategory(category);
+		return Response.ok(names).build();
 	}
 }

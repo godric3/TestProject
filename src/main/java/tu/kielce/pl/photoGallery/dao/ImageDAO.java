@@ -3,8 +3,8 @@ package tu.kielce.pl.photoGallery.dao;
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import javax.ws.rs.NotFoundException;
 
 import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.model.Category;
@@ -20,57 +20,66 @@ public class ImageDAO extends GenericDAO<Image> {
 		return Image.class;
 	}
 
-	public Image getByName(String name) throws NotFoundException {
+	public Image getByName(String url, String extension) throws EntityNotFound {
 		Query q = entityManager.createNamedQuery("Image.findByName", Image.class);
-		q.setParameter("name", name);
-		Image image = (Image) q.getSingleResult();
-		if (image != null)
-			return image;
-		else
-			throw new NotFoundException();
+		q.setParameter("url", url);
+		q.setParameter("extension", extension);
+		Image image;
+		try {
+			image = (Image) q.getSingleResult();
+		} catch (NoResultException e) {
+			throw new EntityNotFound();
+		}
+		return image;
 	}
 
 	public List<String> getAllNames() {
 		Query q = entityManager.createNamedQuery("Image.findAllNames", String.class);
-		List<String> images = q.getResultList();
-		System.out.println(images.get(0));
-		return images;
+		List<String> imageNames = q.getResultList();
+		return imageNames;
 	}
 
-	public List<Image> getBySize(int minSize, int maxSize) {
-		Query q = entityManager.createNamedQuery("Image.findBySize", Image.class);
+	public List<String> getBySize(int minSize, int maxSize) {
+		Query q = entityManager.createNamedQuery("Image.findBySize", String.class);
 		q.setParameter("minSize", minSize);
 		q.setParameter("maxSize", maxSize);
-		List<Image> images = q.getResultList();
-		return images;
+		List<String> imageNames = q.getResultList();
+		return imageNames;
 	}
 
-	public List<Image> getByExtension(String extension) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByExtension", Image.class);
+	public List<String> getByExtension(String extension) {
+		Query q = entityManager.createNamedQuery("Image.findByExtension", String.class);
 		q.setParameter("extension", extension);
-		List<Image> images = q.getResultList();
-		return images;
+		List<String> imageNames = q.getResultList();
+		return imageNames;
 	}
 
-	public List<Image> getByTag(Tag tag) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByTag", Image.class);
+	public List<String> getByTag(Tag tag) {
+		Query q = entityManager.createNamedQuery("Image.findByTag", String.class);
 		q.setParameter("tag", tag);
-		List<Image> images = q.getResultList();
-		return images;
+		List<String> imageNames = q.getResultList();
+		return imageNames;
 	}
 
-	public List<Image> getByUser(User user) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByUser", Image.class);
+	public List<String> getByMultipleTags(List<Tag> tags) {
+		Query q = entityManager.createNamedQuery("Image.findByMultipleTags", String.class);
+		q.setParameter("tags", tags);
+		List<String> imageNames = q.getResultList();
+		return imageNames;
+	}
+
+	public List<String> getByUser(User user) {
+		Query q = entityManager.createNamedQuery("Image.findByUser", String.class);
 		q.setParameter("user", user);
-		List<Image> images = q.getResultList();
-		return images;
+		List<String> imageNames = q.getResultList();
+		return imageNames;
 	}
 
-	public List<Image> getByCategory(Category category) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByCategory", Image.class);
+	public List<String> getByCategory(Category category) {
+		Query q = entityManager.createNamedQuery("Image.findByCategory", String.class);
 		q.setParameter("category", category);
-		List<Image> images = q.getResultList();
-		return images;
+		List<String> imageNames = q.getResultList();
+		return imageNames;
 	}
 
 }
