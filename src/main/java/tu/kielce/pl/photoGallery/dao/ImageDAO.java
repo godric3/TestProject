@@ -40,36 +40,36 @@ public class ImageDAO extends GenericDAO<Image> {
 	}
 
 	public List<String> getBySize(int minSize, int maxSize) {
-		Query q = entityManager.createNamedQuery("Image.findBySize", Image.class);
+		Query q = entityManager.createNamedQuery("Image.findBySize", String.class);
 		q.setParameter("minSize", minSize);
 		q.setParameter("maxSize", maxSize);
 		List<String> imageNames = q.getResultList();
 		return imageNames;
 	}
 
-	public List<String> getByExtension(String extension) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByExtension", Image.class);
+	public List<String> getByExtension(String extension) {
+		Query q = entityManager.createNamedQuery("Image.findByExtension", String.class);
 		q.setParameter("extension", extension);
 		List<String> imageNames = q.getResultList();
 		return imageNames;
 	}
 
-	public List<String> getByTag(Tag tag) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByTag", Image.class);
+	public List<String> getByTag(Tag tag) {
+		Query q = entityManager.createNamedQuery("Image.findByTag", String.class);
 		q.setParameter("tag", tag);
 		List<String> imageNames = q.getResultList();
 		return imageNames;
 	}
 
-	public List<String> getByUser(User user) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByUser", Image.class);
+	public List<String> getByUser(User user) {
+		Query q = entityManager.createNamedQuery("Image.findByUser", String.class);
 		q.setParameter("user", user);
 		List<String> imageNames = q.getResultList();
 		return imageNames;
 	}
 
-	public List<String> getByCategory(Category category) throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Image.findByCategory", Image.class);
+	public List<String> getByCategory(Category category) {
+		Query q = entityManager.createNamedQuery("Image.findByCategory", String.class);
 		q.setParameter("category", category);
 		List<String> imageNames = q.getResultList();
 		return imageNames;

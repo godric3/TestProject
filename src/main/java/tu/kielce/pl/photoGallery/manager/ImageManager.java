@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -14,6 +15,7 @@ import tu.kielce.pl.photoGallery.dao.CategoryDAO;
 import tu.kielce.pl.photoGallery.dao.ImageDAO;
 import tu.kielce.pl.photoGallery.dao.TagDAO;
 import tu.kielce.pl.photoGallery.dao.TagImageDAO;
+import tu.kielce.pl.photoGallery.dao.UserDAO;
 import tu.kielce.pl.photoGallery.dto.ImageDTO;
 import tu.kielce.pl.photoGallery.dto.SavedImageDTO;
 import tu.kielce.pl.photoGallery.exception.EntityNotFound;
@@ -21,6 +23,7 @@ import tu.kielce.pl.photoGallery.model.Category;
 import tu.kielce.pl.photoGallery.model.Image;
 import tu.kielce.pl.photoGallery.model.Tag;
 import tu.kielce.pl.photoGallery.model.TagImage;
+import tu.kielce.pl.photoGallery.model.User;
 
 @Stateless
 public class ImageManager {
@@ -33,6 +36,8 @@ public class ImageManager {
 	CategoryDAO categoryDAO;
 	@EJB
 	TagImageDAO tagImageDAO;
+	@EJB
+	UserDAO userDAO;
 	private static final String rootPath = new File("").getAbsolutePath() + "\\___images";
 
 	public List<String> getAllImageNames() {
@@ -92,6 +97,49 @@ public class ImageManager {
 		String name = file.getPath() + "\\" + url;
 		file = new File(name);
 		return file;
+	}
+
+	public List<String> getImagesBySize(int minSize, int maxSize) {
+		List<String> names = imageDAO.getBySize(minSize, maxSize);
+		return names;
+	}
+
+	public List<String> getImagesByUserId(int userID) {
+		User user;
+		try {
+			user = userDAO.find(userID);
+		} catch (EntityNotFound e) {
+			return new ArrayList<>();
+		}
+		List<String> names = imageDAO.getByUser(user);
+		return names;
+	}
+
+	public List<String> getImagesByTag(String tagName) {
+		Tag tag;
+		try {
+			tag = tagDAO.find(tagName);
+		} catch (EntityNotFound e) {
+			return new ArrayList<>();
+		}
+		List<String> names = imageDAO.getByTag(tag);
+		return names;
+	}
+
+	public List<String> getImagesByExtension(String extension) {
+		List<String> names = imageDAO.getByExtension(extension);
+		return names;
+	}
+
+	public List<String> getImagesByCategory(String categoryName) {
+		Category category;
+		try {
+			category = categoryDAO.find(categoryName);
+		} catch (EntityNotFound e) {
+			return new ArrayList<>();
+		}
+		List<String> names = imageDAO.getByCategory(category);
+		return names;
 	}
 
 }
