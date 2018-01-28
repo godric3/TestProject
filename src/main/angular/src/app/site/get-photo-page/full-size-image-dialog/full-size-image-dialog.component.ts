@@ -20,6 +20,7 @@ export class FullSizeImageDialogComponent implements OnInit {
     this.image = this.data.image.safeUrl
     this.imageId = this.data.image.id
     this.imageService.getImageInfo(this.data.image.id).subscribe(res => {
+      console.log(res)
       this.dataImage = res
       this.tagsString = ''
       this.dataImage.tags.forEach(tag => {

@@ -31,10 +31,32 @@ export class ImageService {
   }
 
   getAllImages(){
-    //let headers = new Headers({ 'Content_Type': 'application/json' });
-    //headers.append('Authorization',this.userService.getToken())
-    //let options = new RequestOptions({ headers: headers })
     let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
     return this.httpClient.get('http://localhost:8080/TestProject/api/image',{headers:headers})
+  }
+
+  getImagesByExtension(extension:string){
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/extension/'+extension,{headers:headers})
+  }
+
+  getImagesByCategory(category:string){
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/category/'+category,{headers:headers})
+  }
+
+  getImagesByUserId(userId:string){
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/user/'+userId,{headers:headers})
+  }
+
+  getImagesBySize(minSize:number,maxSize:number){
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/size/'+minSize+'/'+maxSize,{headers:headers})
+  }
+
+  getImagesByTag(tag:string){
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/image/tag/'+tag,{headers:headers})
   }
 }

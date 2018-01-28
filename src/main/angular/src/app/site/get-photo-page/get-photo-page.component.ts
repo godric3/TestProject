@@ -28,7 +28,8 @@ export class GetPhotoPageComponent implements OnInit {
     { value: 'filtr1', viewValue: 'Tagi' },
     { value: 'filtr2', viewValue: 'Rozmiar' },
     { value: 'filtr3', viewValue: 'Rozszerzenie' },
-    { value: 'filtr4', viewValue: 'Nazwa' }
+    { value: 'filtr4', viewValue: 'Nazwa' },
+    { value: 'filtr5', viewValue: 'Użytkownik' }
   ];
 
   constructor(private imageService: ImageService, private sanitizer: DomSanitizer, public dialog: MatDialog) { }
@@ -59,11 +60,50 @@ export class GetPhotoPageComponent implements OnInit {
 
   searchImage() {
     this.imageContener = []
-    this.imageService.getImage(this.filtrType).subscribe(res => {
-      const imageUrl = URL.createObjectURL(res);
-      let trustURl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-      this.imageContener.push({ id: this.filtrType, safeUrl: trustURl })
-    })
+    switch (this.selected) {
+      case 'filtr0':
+        this.imageService.getImagesByCategory(this.filtrType).subscribe(image => {
+          this.addFewImagesToContainer(image);
+
+        })
+        break;
+      case 'filtr1':
+
+        break;
+      case 'filtr2':
+        this.imageService.getImagesBySize(this.filtrType, this.filtrType2).subscribe(image => {
+          this.addFewImagesToContainer(image);
+
+        })
+        break;
+      case 'filtr3':
+        this.imageService.getImagesByExtension(this.filtrType).subscribe(image => {
+          this.addFewImagesToContainer(image);
+
+        })
+        break;
+      case 'filtr4':
+        this.imageService.getImage(this.filtrType).subscribe(image => {
+          this.addImageToContainer(image);
+        })
+        break;
+      case 'filtr5':
+      this.imageService.getImagesByUserId(this.filtrType).subscribe(image => {
+        this.addImageToContainer(image);
+      })
+
+        break;
+
+      default:
+        break;
+    }
+
+  }
+
+  private addImageToContainer(res: any) {
+    const imageUrl = URL.createObjectURL(res);
+    let trustURl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+    this.imageContener.push({ id: this.filtrType, safeUrl: trustURl });
   }
 
   getImageUrlById(id: string) {
@@ -77,18 +117,21 @@ export class GetPhotoPageComponent implements OnInit {
 
   getAllImages() {
     this.imageService.getAllImages().subscribe(res => {
-      this.imageContener = []
-      let array: any
-      array = res
-      array.forEach(element => {
-        this.imageService.getImage(element).subscribe(res => {
-          const imageUrl = URL.createObjectURL(res);
-          let trustURl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-          this.imageContener.push({ id: (element as string), safeUrl: trustURl })
-        })
-
-      })
+      this.addFewImagesToContainer(res);
     })
+  }
+
+  private addFewImagesToContainer(res: Object) {
+    this.imageContener = [];
+    let array: any;
+    array = res;
+    array.forEach(element => {
+      this.imageService.getImage(element).subscribe(res => {
+        const imageUrl = URL.createObjectURL(res);
+        let trustURl = this.sanitizer.bypassSecurityTrustUrl(imageUrl);
+        this.imageContener.push({ id: (element as string), safeUrl: trustURl });
+      });
+    });
   }
 
   openDialog(imageData): void {
