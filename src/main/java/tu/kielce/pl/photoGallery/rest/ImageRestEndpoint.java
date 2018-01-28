@@ -120,33 +120,38 @@ public class ImageRestEndpoint {
 		return Response.ok().build();
 	}
 
-	@Path("/size/{size}")
+	@Path("/size/{sizeMin}/{sizeMax}")
 	@GET
-	public Response searchBySize(@PathParam("size") int size) {
-		return Response.ok().build();
+	public Response searchBySize(@PathParam("sizeMin") int minSize, @PathParam("sizeMax") int maxSize) {
+		List<String> names = imageManager.getImagesBySize(minSize, maxSize);
+		return Response.ok(names).build();
 	}
 
 	@Path("/user/{userID}")
 	@GET
 	public Response searchByUser(@PathParam("userID") int userID) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByUserId(userID);
+		return Response.ok(names).build();
 	}
 
 	@Path("/extension/{extension}")
 	@GET
 	public Response searchByExtension(@PathParam("extension") String extension) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByExtension(extension);
+		return Response.ok(names).build();
 	}
 
 	@Path("/tag/{tag}")
 	@GET
 	public Response searchByTag(@PathParam("tag") String tag) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByTag(tag);
+		return Response.ok(names).build();
 	}
 
 	@Path("/category/{category}")
 	@GET
 	public Response searchByCategory(@PathParam("category") String category) {
-		return Response.ok().build();
+		List<String> names = imageManager.getImagesByCategory(category);
+		return Response.ok(names).build();
 	}
 }
