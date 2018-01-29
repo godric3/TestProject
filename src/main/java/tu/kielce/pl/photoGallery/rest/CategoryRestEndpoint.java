@@ -4,26 +4,24 @@ import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
-import tu.kielce.pl.photoGallery.dao.TagDAO;
 import tu.kielce.pl.photoGallery.filter.Secured;
-import tu.kielce.pl.photoGallery.manager.TagManager;
+import tu.kielce.pl.photoGallery.manager.CategoryManager;
 
-@Path("/tag/")
+@Path("/category/")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
-public class TagRestEndpoint {
+public class CategoryRestEndpoint {
 
 	@EJB
-	TagManager tagManager;
+	CategoryManager categoryManager;
 
 	@Path("/")
 	@GET
 	@Secured
-	public Response getAllTags() {
-		return Response.ok(tagManager.getAllTags()).build();// Can it fail?
+	public Response getAllCategories() {
+		return Response.ok(categoryManager.getAllCategories()).build();// Can it fail?
 	}
 }
