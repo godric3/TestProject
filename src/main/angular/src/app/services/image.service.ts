@@ -75,6 +75,10 @@ export class ImageService {
   getAllCatygoriesFromServer(){
     let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
     return this.httpClient.get('http://localhost:8080/TestProject/api/category/',{headers:headers})
+  }
 
+  getAllTagsFromServer(){
+    let headers:HttpHeaders = new HttpHeaders().set('Authorization', this.userService.getToken())
+    return this.httpClient.get('http://localhost:8080/TestProject/api/tag/',{headers:headers})
   }
 }
