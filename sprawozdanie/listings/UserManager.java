@@ -13,7 +13,7 @@ public class UserManager {
 			System.out.println(e.getMessage());
 			user = new User();
 			user.setUsername(login);
-			user.setPassword(password);// TODO: HASH!
+			user.setPassword(generateHash(password));
 			user = userDAO.create(user);
 		}
 		return user;
@@ -22,10 +22,10 @@ public class UserManager {
 	public User loginUser(String login, String password) throws WrongPassword, EntityNotFound {
 		User user = null;
 		user = userDAO.getByUsername(login);
-		if (password.equals(user.getPassword())) {// TODO: HASH!
+		if (generateHash(password).equals(user.getPassword())) {
 			user.setToken(login + "|" + password);
 		} else {
-			throw new WrongPassword();// wrong password
+			throw new WrongPassword();
 		}
 		return user;
 	}

@@ -60,23 +60,25 @@ został przypisany adres:
 	\hline 
 	adres & metoda & operacja  \\
 	\hline 
-	\texttt{/image/} & GET &  pobranie wszystkich zdjęć \\
+	\texttt{/image/} & GET &  pobranie listy wszystkich zdjęć \\
 	\hline 
     \texttt{/image/} & POST &  wgranie zdjęcia \\
     \hline 
-	\texttt{/image/\{id\}} & GET & pobranie informacji o~zdjęciu o~id=\{id\} \\	
+	\texttt{/image/\{id\}} & GET & pobranie zdjęcia o~id=\{id\} \\	
 	\hline 
 	\texttt{/image/details/\{id\}} & GET & pobranie dokładnych informacji o~zdjęciu o~id=\{id\} \\	
 	\hline 
-	\texttt{/image/size/{size}} & GET & wyszukiwanie zdjęć po rozmiarze=\{size\}\\
+	\texttt{/image/size/\{minSize\}/\{maxSize\}} & GET & wyszukiwanie zdjęć o rozmiarze od min do max \\
 	\hline 
-	\texttt{/image/user/{userID}} & GET & wyszukiwanie zdjęć użytkownika o~id=\{userID\} \\
+	\texttt{/image/user/\{userID\}} & GET & wyszukiwanie zdjęć użytkownika o~id=\{userID\} \\
     \hline 
-    \texttt{/image/extension/{extension}} & GET & wyszukiwanie zdjęć po rozszerzeniu=\{extension\} \\
+    \texttt{/image/extension/\{extension\}} & GET & wyszukiwanie zdjęć po rozszerzeniu=\{extension\} \\
     \hline 
-    \texttt{/image/tag/{tag}} & GET & wyszukiwanie zdjęć z tagiem=\{tag\}\\
+    \texttt{/image/tag/\{tag\}} & GET & wyszukiwanie zdjęć z tagiem=\{tag\}\\
     \hline 
-    \texttt{/image/category/{category}} & GET & wyszukiwanie zdjęć z kategorii=\{category\}\\
+    \texttt{/image/tags/\{tag1\}/\{tag2\}/\{tagN\}} & GET & wyszukiwanie zdjęć z listy\\
+    \hline 
+    \texttt{/image/category/\{category\}} & GET & wyszukiwanie zdjęć z kategorii=\{category\}\\
     \hline 
 \end{tabular}
 \end{table}

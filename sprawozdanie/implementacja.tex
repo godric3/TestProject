@@ -47,16 +47,14 @@ Logika aplikacji, realizująca jej funkcjonalności po stronie serwera, została
 operacjami na użytkownikach - procesem rejestracji i logowania. Adnotacja w~wierszu pierwszym informuje o~tym, że klasa ta
 jest bezstanowym EJB. Wiersze 4-5 odpowiadają za wstrzyknięcie DAO
 odpowiedzialnego za operacje na tabeli przechowującej dane użytkowników.
-Metoda loginUser() (wiersze 9-21) przyjmuje jako parametry login oraz
+Metoda loginUser() (wiersze 22-30) przyjmuje jako parametry login oraz
 hasło użytkownika. Po udanym logowaniu zwracany jest obiekt użytkownika, w
 przeciwnym wypadku zgłaszany jest wyjątek logowania. Występuje on w~przypadku
 gdy hasło jest niepoprawne, a także gdy nie istnieje użytkownik o~podanym loginie. Proces logowania przebiega następująco:
 \begin{itemize}
-	\item pobranie użytkownika o~podanym loginie, jeśli nie istnieje zgłoszenie wyjątku (wiersze 10-12),
-        \item wygenerowanie hashu z~hasła (wiersz 13. oraz metoda generateHash() w~wierszach 27-42),
-	\item porównanie wygenerowanego hashu z~zapisanym w~bazie oraz zgłoszenie wyjątku jeśli nie są identyczne (wiersze 13-16),
-	\item wygenerowanie tokena i~zapisanie go w~bazie (wiersze 17-19 oraz metoda generateToken() w~wierszach 23-25),
-	\item czyszczenie pola zwierającego hash hasła, modyfikacja ta dotyczy tylko obiektu zwracanego przez funkcje, nie ma wpływu na dane w~bazie danych (wiersz 19.).
+	\item pobranie użytkownika o~podanym loginie,
+	\item porównanie wygenerowanego hashu z~zapisanym w~bazie oraz zgłoszenie wyjątku jeśli nie są identyczne,
+	\item wygenerowanie tokena i~zapisanie go w~bazie
 \end{itemize}
 
 \lstinputlisting[caption={Klasa UserManager}, label=lst:UserManager]
