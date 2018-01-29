@@ -22,6 +22,13 @@
                 <mat-form-field class="example-full-width">
                     <input matInput name="tag" [(ngModel)]="newTag" placeholder="Wpisz tag ">
                 </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-select name="tagsFro" [(ngModel)]="tagsFromSelect" (change)="selectedCTagsFromList()" placeholder="Wybierz z dostepnych tagow">
+                        <mat-option *ngFor="let tags of tagsFromServer" [value]="tags.name">
+                            {{tags.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <button mat-raised-button color="primary" (click)="addTagToTagsList()">Dodaj tag</button>
             </form>
             <button mat-raised-button color="primary" (click)="sendImage()">Dodaj nowe zdjęcie</button>

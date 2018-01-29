@@ -19,20 +19,29 @@ export class AddPhotoPageComponent implements OnInit {
   private fullImagePath = '/TestProject/ng/assets/images-hello-site.jpg'
   category: string
   categoryFromSelect:string
+  tagsFromSelect
   tags: string[]
   newTag: string
   catygoriesFromServer;
+  tagsFromServer;
   constructor(private imageService: ImageService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.tags = []
     //pobranie z serwera list kategorii
     this.getAllCatygories();
+    this.getAllTags();
   }
 
   private getAllCatygories() {
     this.imageService.getAllCatygoriesFromServer().subscribe(response => {
       this.catygoriesFromServer = response;
+    });
+  }
+
+  private getAllTags() {
+    this.imageService.getAllTagsFromServer().subscribe(response => {
+      this.tagsFromServer = response;
     });
   }
 
@@ -47,6 +56,11 @@ export class AddPhotoPageComponent implements OnInit {
     console.log('change')
     console.log(this.categoryFromSelect)
     this.category = this.categoryFromSelect
+  }
+
+  selectedCTagsFromList(){
+    console.log('change tag')
+    this.newTag =  this.tagsFromSelect
   }
   sendImage() {
     let fileBrowser = this.fileInput.nativeElement;
