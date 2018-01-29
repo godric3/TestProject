@@ -5,6 +5,10 @@ import { Input } from '@angular/compiler/src/core';
 import { AddingPhotoResultDialogComponent } from './adding-photo-result-dialog/adding-photo-result-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
+export interface catygoriesFromServer {
+  name:string
+  numberOfImages:number
+}
 @Component({
   selector: 'app-add-photo-page',
   templateUrl: './add-photo-page.component.html',
@@ -14,12 +18,15 @@ export class AddPhotoPageComponent implements OnInit {
   @ViewChild("fileInput") fileInput:ElementRef;
   private fullImagePath = '/TestProject/ng/assets/images-hello-site.jpg'
   category: string
+  categoryFromSelect:string
   tags: string[]
   newTag: string
+  catygoriesFromServer: catygoriesFromServer[]
   constructor(private imageService: ImageService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.tags = []
+    //pobranie z serwera list kategorii
   }
 
   addTagToTagsList() {
@@ -29,6 +36,11 @@ export class AddPhotoPageComponent implements OnInit {
     }
   }
 
+  selectedCategoryFromList(){
+    console.log('change')
+    console.log(this.categoryFromSelect)
+    this.category = this.categoryFromSelect
+  }
   sendImage() {
     let fileBrowser = this.fileInput.nativeElement;
     if (fileBrowser.files && fileBrowser.files[0] && this.category &&  this.tags.length>0) {

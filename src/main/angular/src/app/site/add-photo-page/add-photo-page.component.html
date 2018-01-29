@@ -2,7 +2,7 @@
     <h2>Dodawanie nowego zdjecia</h2>
 
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <label class="btn btn-default">
                 Wybierz
                 <input #fileInput type="file">
@@ -11,18 +11,26 @@
                 <mat-form-field class="example-full-width">
                     <input matInput name="category" [(ngModel)]="category" placeholder="Wpisz kategorie">
                 </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-select name="cateFro" [(ngModel)]="categoryFromSelect" (change)="selectedCategoryFromList()" placeholder="Wybierz z dostepnych">
+                        <mat-option *ngFor="let cat of catygoriesFromServer" [value]="cat.name">
+                            {{cat.name}}
+                        </mat-option>
+                        <mat-option value="Koty"> Koty</mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <br>
                 <mat-form-field class="example-full-width">
                     <input matInput name="tag" [(ngModel)]="newTag" placeholder="Wpisz tag ">
                 </mat-form-field>
-                <button  mat-raised-button color="primary" (click)="addTagToTagsList()">Dodaj tag</button>
+                <button mat-raised-button color="primary" (click)="addTagToTagsList()">Dodaj tag</button>
             </form>
-            <button  mat-raised-button color="primary" (click)="sendImage()">Dodaj nowe zdjęcie</button>
+            <button mat-raised-button color="primary" (click)="sendImage()">Dodaj nowe zdjęcie</button>
         </div>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
             <mat-list role="list">
-                    <h3 mat-subheader>Dodane tagi</h3>
-                <mat-list-item role="listitem" *ngFor="let tag of tags" >{{tag}}</mat-list-item>
+                <h3 mat-subheader>Dodane tagi</h3>
+                <mat-list-item role="listitem" *ngFor="let tag of tags">{{tag}}</mat-list-item>
             </mat-list>
         </div>
     </div>
