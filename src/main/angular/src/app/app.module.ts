@@ -31,6 +31,7 @@ import { ImageService } from './services/image.service';
 import {MatSelectModule} from '@angular/material/select';
 import { FullSizeImageDialogComponent } from './site/get-photo-page/full-size-image-dialog/full-size-image-dialog.component';
 import { AddingPhotoResultDialogComponent } from './site/add-photo-page/adding-photo-result-dialog/adding-photo-result-dialog.component';
+import { MyPhotosPageComponent } from './site/my-photos-page/my-photos-page.component';
 
 
 
@@ -43,6 +44,7 @@ import { AddingPhotoResultDialogComponent } from './site/add-photo-page/adding-p
 const appRoutes: Routes = [
   {path: '', component:WelcomePageComponent },
   {path: 'home', component:WelcomePageComponent },
+  {path: 'myPhoto',component:MyPhotosPageComponent},
   {path: 'addPhoto', component:AddPhotoPageComponent},
   {path: 'getPhoto', component:GetPhotoPageComponent},
   {path: 'login', component:LoginPageComponent},
@@ -61,7 +63,8 @@ const appRoutes: Routes = [
     LoginPageComponent,
     RegisterPageComponent,
     FullSizeImageDialogComponent,
-    AddingPhotoResultDialogComponent
+    AddingPhotoResultDialogComponent,
+    MyPhotosPageComponent
   ],
   imports: [
     BrowserModule,

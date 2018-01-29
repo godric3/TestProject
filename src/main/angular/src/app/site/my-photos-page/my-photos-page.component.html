@@ -1,0 +1,3 @@
+<mat-card *ngFor="let image of imageContener" class="example-card">
+  <img mat-card-image class="miniImage" [src]='image.safeUrl' (click)="openDialog(image)" alt="Photo of a Shiba Inu">
+</mat-card>
