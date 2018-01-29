@@ -41,14 +41,10 @@ public class CategoryDAO extends GenericDAO<Category> {
 		return category;
 	}
 
-	public List<Object[]> getAllWithImageCount() throws EntityNotFound {
-		Query q = entityManager.createNamedQuery("Category.findAllWithImageCount", Category.class);
+	public List<Object[]> getAllWithImageCount() {
+		Query q = entityManager.createNamedQuery("Category.findAllWithImageCount");
 		List<Object[]> categoriesWithImageCount = null;
-		try {
-			categoriesWithImageCount = q.getResultList();
-		} catch (NoResultException e) {
-			throw new EntityNotFound();
-		}
+		categoriesWithImageCount = q.getResultList();
 		return categoriesWithImageCount;
 	}
 
