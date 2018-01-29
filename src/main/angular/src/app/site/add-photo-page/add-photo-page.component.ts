@@ -21,12 +21,19 @@ export class AddPhotoPageComponent implements OnInit {
   categoryFromSelect:string
   tags: string[]
   newTag: string
-  catygoriesFromServer: catygoriesFromServer[]
+  catygoriesFromServer;
   constructor(private imageService: ImageService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.tags = []
     //pobranie z serwera list kategorii
+    this.getAllCatygories();
+  }
+
+  private getAllCatygories() {
+    this.imageService.getAllCatygoriesFromServer().subscribe(response => {
+      this.catygoriesFromServer = response;
+    });
   }
 
   addTagToTagsList() {
@@ -52,6 +59,7 @@ export class AddPhotoPageComponent implements OnInit {
       formData.append("tags", json_array)
       this.imageService.sendImage(formData).subscribe(res => {
         console.log(res)
+        this.getAllCatygories();
         this.openDialog(true)
       },
         err => {
