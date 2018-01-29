@@ -4,6 +4,7 @@
     <span class="example-spacer-before-navigate-button"></span>
     <div class="button-row">
       <button mat-raised-button color="warn" class="buttonInHeader" routerLink="/home">Strona główna</button>
+      <button mat-raised-button color="warn" class="buttonInHeader" *ngIf=isLoggedIn() routerLink="/myPhoto">Moje zdjęcia</button>
       <button mat-raised-button color="warn" class="buttonInHeader" *ngIf=isLoggedIn() routerLink="/addPhoto">Dodaj zdjęcie</button>
       <button mat-raised-button color="warn" class="buttonInHeader" *ngIf=isLoggedIn() routerLink="/getPhoto"> Pokaż zdjęcia</button>
     </div>
@@ -12,7 +13,6 @@
     <div class="button-row">
       <button mat-raised-button color="primary" class="buttonInHeader" *ngIf=!isLoggedIn() routerLink="/register">Rejestracja</button>
       <button mat-raised-button color="primary" class="buttonInHeader" *ngIf=!isLoggedIn() routerLink="/login">Logowanie</button>
-      <!--<div *ngIf=isLoggedIn()>{{getUserName()}</div>-->
       <button mat-raised-button color="primary" class="buttonInHeader" *ngIf=isLoggedIn() (click)="logout()">Wyloguj się</button>
     </div>
   </mat-toolbar-row>
