@@ -41,7 +41,7 @@ to potrzebne, dodaje dodatkowe metody. Przykład klasy DAO pokazano na listingu 
 \lstinputlisting[caption={Klasa UserDAO}, label=lst:UserDAO]
 {listings/UserDAO.java}
 
-\subsubsection{\textcolor{red}{Logika aplikacji}}
+\subsubsection{Logika aplikacji}
 Logika aplikacji, realizująca jej funkcjonalności po stronie serwera, została umieszczona w~klasach Managerów (znajdującą się one w~pakiecie photoGallery.manager). Są to bezstanowe komponenty sesyjne EJB. Każda ich metoda realizuje jedno polecenie, które jest niezależne od innych. Managery posiadają dostęp do DAO dzięki wstrzykiwaniu zależności (ang. dependency injection). Na listingu
 \ref{lst:UserManager} przedstawiono klasę UserManager, która zajmuje się
 operacjami na użytkownikach - procesem rejestracji i logowania. Adnotacja w~wierszu pierwszym informuje o~tym, że klasa ta
@@ -60,7 +60,7 @@ gdy hasło jest niepoprawne, a także gdy nie istnieje użytkownik o~podanym log
 \lstinputlisting[caption={Klasa UserManager}, label=lst:UserManager]
 {listings/UserManager.java}
 
-\subsubsection{\textcolor{red}{Interfejs wejściowy}}
+\subsubsection{Interfejs wejściowy}
 Dostęp do logiki aplikacji został udostępniony poprzez interfejs REST stworzony
 przy użyciu standardu JAX-RS. W celu kontroli dostępu do aplikacji
 (ochrona przed niezalogowanymi użytkownikami) został utworzony filtr przechwytujący wchodzące zapytania (listing \ref{lst:filter}). 
