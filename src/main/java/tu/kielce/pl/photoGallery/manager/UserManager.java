@@ -17,6 +17,8 @@ public class UserManager {
 
 	@EJB
 	UserDAO userDAO;
+	@EJB
+	Authenticator auth;
 
 	public User registerUser(String login, String password) throws EntityAlreadyExist {
 		User user = null;
@@ -37,7 +39,7 @@ public class UserManager {
 		User user = null;
 		user = userDAO.getByUsername(login);
 		if (generateHash(password).equals(user.getPassword())) {
-			user.setToken(login + "|" + password);
+			user.setToken(auth.generateToken(login, password));
 		} else {
 			throw new WrongPassword();
 		}

@@ -34,12 +34,14 @@ export class UserService {
     let headers = new Headers({ 'Authorization': this.getToken()});
     let options = new RequestOptions({ headers: headers })
     localStorage.removeItem('auth_token')
+	localStorage.removeItem('username')
     return this.http.delete('http://localhost:8080/TestProject/api/user/login',options)
     // post delete token
   }
 
-  saveToken(tokenBody: string) {
+  saveToken(tokenBody: string, userName: string) {
     localStorage.setItem('auth_token', tokenBody)
+	localStorage.setItem('username', userName)
   }
 
   getToken(){
@@ -58,9 +60,8 @@ export class UserService {
   }
 
   getLoggedUserName() {
-    if (!!localStorage.getItem('auth_token')) {
-      let token = localStorage.getItem('auth_token');
-      let nameUser = this.setUsernNameFromToken(token)
+    if (!!localStorage.getItem('username')) {
+      let nameUser = localStorage.getItem('username');
       return nameUser
     } else 
     return null

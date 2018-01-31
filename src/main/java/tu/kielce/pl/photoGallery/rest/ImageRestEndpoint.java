@@ -30,6 +30,7 @@ import tu.kielce.pl.photoGallery.dto.ImageDTO;
 import tu.kielce.pl.photoGallery.dto.ImageDetailsDTO;
 import tu.kielce.pl.photoGallery.exception.EntityNotFound;
 import tu.kielce.pl.photoGallery.filter.Secured;
+import tu.kielce.pl.photoGallery.manager.Authenticator;
 import tu.kielce.pl.photoGallery.manager.ImageManager;
 import tu.kielce.pl.photoGallery.model.Image;
 
@@ -40,7 +41,9 @@ public class ImageRestEndpoint {
 
 	@EJB
 	ImageManager imageManager;
-
+	@EJB
+	Authenticator auth;
+	
 	@Path("/")
 	@GET
 	@Secured
@@ -84,7 +87,7 @@ public class ImageRestEndpoint {
 	public Response uploadImage(MultipartFormDataInput input, @Context HttpHeaders headers) {
 		System.out.println("It's alive!");
 		ImageDTO imageDTO = new ImageDTO();
-		String userName = headers.getRequestHeader("Authorization").get(0).split("\\|")[0];
+		String userName = auth.getUser((headers.getRequestHeader("Authorization").get(0)));
 		imageDTO.setUser(userName);
 		Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		List<InputPart> categoryInputParts = uploadForm.get("category");

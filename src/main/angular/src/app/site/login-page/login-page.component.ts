@@ -40,8 +40,7 @@ export class LoginPageComponent implements OnInit,OnDestroy {
     console.log(this.password)
     return this.userService.loginUser(this.userName, this.password).subscribe(res => {
       if (res.statusText == "OK") {
-          this.userService.saveToken(res.text())
-          this.userService.setUsernNameFromToken(res.text())
+          this.userService.saveToken(res.text(), this.userName)
           this.router.navigate(['/home'])
       }
       console.log(this.message)
